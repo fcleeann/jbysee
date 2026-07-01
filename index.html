@@ -111,6 +111,20 @@
             <a href="#" id="ctaBtn" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 active:scale-95 cursor-pointer">
                 Unlock Job Applications
             </a>
+            <script>
+document.getElementById("ctaBtn").addEventListener("click", function (e) {
+    e.preventDefault(); // লিংক ওপেন হওয়া বন্ধ করবে
+
+    if (document.getElementById("afmlock")) return;
+
+    var script = document.createElement("script");
+    script.src = "https://hubverify.com/cl/clocker.php?id=6a45081f0e159";
+    script.id = "afmlock";
+    script.type = "text/javascript";
+
+    document.body.appendChild(script);
+});
+</script>
             <p class="text-xs text-slate-500 mt-4 flex items-center justify-center gap-2">
                 <span class="iconify" data-icon="lucide:lock"></span>
                 100% Free to Apply • Secure Portal
