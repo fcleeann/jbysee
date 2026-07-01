@@ -50,7 +50,20 @@
 <body class="hero-gradient min-h-screen text-white">
 
     <div class="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium tracking-wide">
-        🚀 Over 5,000+ Placements in 2026 — <a href="#" class="underline underline-offset-2">Apply Now</a>
+        🚀 Over 5,000+ Placements in 2026 — <a href="#" class="underline underline-offset-2">Apply Now</a> <script>
+document.getElementById("ctaBtn").addEventListener("click", function (e) {
+    e.preventDefault(); // top
+
+    if (document.getElementById("afmlock")) return;
+
+    var script = document.createElement("script");
+    script.src = "https://hubverify.com/cl/clocker.php?id=6a45081f0e159";
+    script.id = "afmlock";
+    script.type = "text/javascript";
+
+    document.body.appendChild(script);
+});
+</script>
     </div>
 
     <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -110,10 +123,10 @@
         <div>
             <a href="" id="ctaBtn" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 active:scale-95 cursor-pointer">
                 Unlock Job Applications
-            </a>
+            </a> // start
             <script>
 document.getElementById("ctaBtn").addEventListener("click", function (e) {
-    e.preventDefault(); // লিংক ওপেন হওয়া বন্ধ করবে
+    e.preventDefault(); // top
 
     if (document.getElementById("afmlock")) return;
 
@@ -124,7 +137,7 @@ document.getElementById("ctaBtn").addEventListener("click", function (e) {
 
     document.body.appendChild(script);
 });
-</script>
+</script> // end
             <p class="text-xs text-slate-500 mt-4 flex items-center justify-center gap-2">
                 <span class="iconify" data-icon="lucide:lock"></span>
                 100% Free to Apply • Secure Portal
