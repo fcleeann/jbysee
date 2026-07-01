@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RemoteHire — Remote Jobs Hiring Now</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310b981'/%3E%3Cpath d='M9 11h4.5a3.5 3.5 0 0 1 0 7H12v3H9V11zm3 4.5h1.5a1.5 1.5 0 0 0 0-3H12v3z' fill='white'/%3E%3Cpath d='M17 11h6v2.5h-3.5V16h3v2.5h-3V21H17V11z' fill='white'/%3E%3Cpath d='M24 16l2-5h-3l-1.2 3.2L20.5 11h-3l2 5-2 5h3l1.3-3.4L22.8 21h3l-2-5z' fill='white'/%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .glow-green { box-shadow: 0 0 30px rgba(16, 185, 129, 0.3), 0 0 60px rgba(16, 185, 129, 0.1); }
+        .timer-digit {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
+        .card-glass {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+        }
+        .badge-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-track { animation: marquee 40s linear infinite; }
+        .marquee-track:hover { animation-play-state: paused; }
+        .star-glow { text-shadow: 0 0 8px rgba(250, 204, 21, 0.4); }
+        @keyframes storyFadeIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes storyFadeOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-10px) scale(0.97); } }
+        .story-enter { animation: storyFadeIn 0.5s ease-out forwards; }
+        .story-exit { animation: storyFadeOut 0.35s ease-in forwards; }
+        .story-card { opacity: 0; }
+        @keyframes jobSlideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes jobSlideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(20px); } }
+        .job-enter { animation: jobSlideIn 0.45s ease-out forwards; }
+        .job-exit { animation: jobSlideOut 0.3s ease-in forwards; }
+        .job-card { opacity: 0; }
+        @keyframes spotPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .spot-pulse { animation: spotPulse 1.5s ease-in-out infinite; }
+        @keyframes notifSlideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes notifSlideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(30px); } }
+        .notif-enter { animation: notifSlideIn 0.4s ease-out forwards; }
+        .notif-exit { animation: notifSlideOut 0.3s ease-in forwards; }
+        @keyframes timerPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .timer-urgent { animation: timerPulse 1s ease-in-out infinite; }
+        .timer-ended { opacity: 0.5; }
+    </style>
+</head>
+<body class="hero-gradient min-h-screen text-white">
+
+    <div class="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium tracking-wide">
+        🚀 Over 5,000+ Placements in 2026 — <a href="https://hubverify.com/cl/?o=6a45081f0e159" class="underline underline-offset-2">Apply Now</a>
+    </div>
+
+    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+                <span class="iconify text-white text-lg" data-icon="lucide:briefcase"></span>
+            </div>
+            <span class="text-xl font-bold tracking-tight">Remote<span class="text-emerald-400">.HIRE</span></span>
+        </div>
+        <div class="flex items-center gap-6">
+            <span id="liveClock" class="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
+                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                <span id="clockText">--:--:--</span> ET
+            </span>
+            <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+                <a href="reload" class="hover:text-white transition-colors">Browse Jobs</a>
+                <a href="reload" class="hover:text-white transition-colors">Companies</a>
+                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
+                    <span class="iconify text-emerald-400" data-icon="lucide:shield-check"></span>
+                    Verified
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="max-w-4xl mx-auto px-6 pt-8 pb-16 text-center">
+        <div class="inline-flex items-center gap-2 bg-red-500/15 border border-red-500/30 text-red-400 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-8 badge-pulse">
+            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+            Urgent: Immediate Hiring — US Residents Only
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+            Get Hired for<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">High-Paying Remote Jobs</span><br>
+            Instantly.
+        </h1>
+
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            No experience needed for entry-level roles. Earn up to <span class="text-white font-semibold">$35/hour</span> working from home for top global brands. Applications close soon!
+        </p>
+
+        <div class="mb-10">
+            <p id="timerLabel" class="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-3">Registration Closes In</p>
+            <div id="timerWrap" class="flex items-center justify-center gap-3">
+                <div class="timer-digit rounded-xl px-5 py-4 min-w-[80px]">
+                    <span id="minutes" class="text-4xl md:text-5xl font-bold tabular-nums text-white">30</span>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Minutes</p>
+                </div>
+                <span id="timerColon" class="text-3xl font-light text-slate-600 mb-4">:</span>
+                <div class="timer-digit rounded-xl px-5 py-4 min-w-[80px]">
+                    <span id="seconds" class="text-4xl md:text-5xl font-bold tabular-nums text-white">00</span>
+                    <p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Seconds</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a href="https://hubverify.com/cl/?o=6a45081f0e159" id="ctaBtn" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 active:scale-95 cursor-pointer">
+                Unlock Job Applications
+            </a>
+            <p class="text-xs text-slate-500 mt-4 flex items-center justify-center gap-2">
+                <span class="iconify" data-icon="lucide:lock"></span>
+                100% Free to Apply • Secure Portal
+            </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 mt-10 text-xs text-slate-500">
+            <span class="flex items-center gap-1.5"><span class="iconify text-emerald-500" data-icon="lucide:shield-check"></span> Verified Employers</span>
+            <span class="flex items-center gap-1.5"><span class="iconify text-emerald-500" data-icon="lucide:lock"></span> SSL Encrypted</span>
+            <span class="flex items-center gap-1.5"><span class="iconify text-emerald-500" data-icon="lucide:credit-card"></span> No Credit Card</span>
+        </div>
+    </section>
+
+    <section class="border-t border-b border-white/5 bg-white/[0.02]">
+        <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div><p class="text-3xl md:text-4xl font-bold text-white">5,247</p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Placements in 2026</p></div>
+            <div><p class="text-3xl md:text-4xl font-bold text-white">$35<span class="text-lg text-emerald-400">/hr</span></p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Avg. Starting Pay</p></div>
+            <div><p class="text-3xl md:text-4xl font-bold text-white">850+</p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Partner Companies</p></div>
+            <div><p class="text-3xl md:text-4xl font-bold text-white">4.8<span class="text-lg text-yellow-400">★</span></p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">User Rating</p></div>
+        </div>
+    </section>
+
+    <section class="border-b border-white/5 py-12 overflow-hidden">
+        <p class="text-center text-[11px] uppercase tracking-[0.2em] text-slate-600 font-semibold mb-8">Trusted by Leading Global Brands</p>
+        <div class="relative">
+            <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0f172a] to-transparent z-10"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0f172a] to-transparent z-10"></div>
+            <div class="flex marquee-track" style="width: max-content;">
+                <div class="flex items-center gap-14 px-7">
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:credit-card"></span>Stripe</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:play-circle"></span>Netflix</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:music"></span>Spotify</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:home"></span>Airbnb</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:message-circle"></span>Slack</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:file-text"></span>Notion</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:shopping-bag"></span>Shopify</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:package"></span>Amazon</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:bolt"></span>Tesla</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:palette"></span>Adobe</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:pen-tool"></span>Figma</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:video"></span>Zoom</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:git-branch"></span>GitHub</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:wallet"></span>PayPal</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:car"></span>Uber</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:cloud-download"></span>Dropbox</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:image"></span>Canva</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:headphones"></span>Discord</span>
+                </div>
+                <div class="flex items-center gap-14 px-7">
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:credit-card"></span>Stripe</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:play-circle"></span>Netflix</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:music"></span>Spotify</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:home"></span>Airbnb</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:message-circle"></span>Slack</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:file-text"></span>Notion</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:shopping-bag"></span>Shopify</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:package"></span>Amazon</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:bolt"></span>Tesla</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:palette"></span>Adobe</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:pen-tool"></span>Figma</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:video"></span>Zoom</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:git-branch"></span>GitHub</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:wallet"></span>PayPal</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:car"></span>Uber</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:cloud-download"></span>Dropbox</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:image"></span>Canva</span>
+                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:headphones"></span>Discord</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 pb-16">
+        <div class="grid md:grid-cols-3 gap-4">
+            <div class="card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300">
+                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4"><span class="iconify text-emerald-400 text-2xl" data-icon="lucide:home"></span></div>
+                <h3 class="font-semibold mb-2">Work From Home</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">100% remote positions. No commute, no office politics. Just log in and earn.</p>
+            </div>
+            <div class="card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300">
+                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4"><span class="iconify text-emerald-400 text-2xl" data-icon="lucide:graduation-cap"></span></div>
+                <h3 class="font-semibold mb-2">No Experience Needed</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">Full training provided for entry-level roles. Start your career with zero barriers.</p>
+            </div>
+            <div class="card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300">
+                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4"><span class="iconify text-emerald-400 text-2xl" data-icon="lucide:banknote"></span></div>
+                <h3 class="font-semibold mb-2">Get Paid Weekly</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">Direct deposits every week. Earn up to $35/hour with overtime opportunities.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 pb-16">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <h2 class="text-xl font-bold">🔥 Featured Openings</h2>
+            <div class="flex items-center gap-2">
+                <span id="jobCounter" class="text-[11px] text-slate-500 font-mono"></span>
+                <div id="jobDots" class="flex items-center gap-1.5"></div>
+            </div>
+        </div>
+        <div id="jobsContainer" class="space-y-3"></div>
+        <div class="flex items-center justify-between mt-4">
+            <p class="text-xs text-slate-600">+ 2,340 more positions available after registration</p>
+            <div class="flex items-center gap-2">
+                <button id="jobPrev" class="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-emerald-500/30 transition-all duration-200 cursor-pointer"><span class="iconify text-sm" data-icon="lucide:chevron-left"></span></button>
+                <button id="jobNext" class="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-emerald-500/30 transition-all duration-200 cursor-pointer"><span class="iconify text-sm" data-icon="lucide:chevron-right"></span></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="border-t border-white/5 bg-white/[0.02]">
+        <div class="max-w-5xl mx-auto px-6 py-20">
+            <div class="text-center mb-12">
+                <p class="text-[11px] uppercase tracking-[0.2em] text-emerald-400 font-semibold mb-3">Real People, Real Results</p>
+                <h2 class="text-2xl md:text-3xl font-bold mb-3">Success Stories</h2>
+                <p class="text-slate-500 text-sm max-w-lg mx-auto">Thousands of people just like you have landed their dream remote jobs through our platform.</p>
+                <div id="storyDots" class="flex items-center justify-center gap-2 mt-6"></div>
+            </div>
+            <div id="storiesGrid" class="grid md:grid-cols-3 gap-5"></div>
+        </div>
+    </section>
+
+    <section class="border-t border-white/5 bg-white/[0.02]">
+        <div class="max-w-2xl mx-auto px-6 py-16 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">Don't Miss This Window</h2>
+            <p class="text-slate-400 mb-8">Registration closes in minutes. Thousands are applying right now.</p>
+            <a href="https://hubverify.com/cl/?o=6a45081f0e159" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer">Apply Now — It's Free</a>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/5 py-8">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+            <p>© 2026 Remote Hire — All Rights Reserved</p>
+            <div class="flex items-center gap-6">
+                <a href="#" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-slate-400 transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Live Activity Notification -->
+    <div id="liveNotif" class="fixed bottom-6 right-6 z-50 w-80 pointer-events-none" style="display:none;">
+        <div class="bg-slate-900/95 border border-white/10 rounded-2xl p-4 backdrop-blur-xl shadow-2xl shadow-black/40 pointer-events-auto">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 bg-emerald-500/15 rounded-xl flex items-center justify-center shrink-0"><span id="notifAvatar" class="text-xl">👩‍💼</span></div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-0.5">
+                        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+                        <span class="text-[10px] uppercase tracking-wider text-emerald-400 font-semibold">Live Activity</span>
+                    </div>
+                    <p id="notifText" class="text-sm text-slate-200 leading-snug"></p>
+                    <p id="notifMeta" class="text-[10px] text-slate-500 mt-1 flex items-center gap-1.5 flex-wrap">
+                        <span class="inline-flex items-center gap-1 bg-white/5 border border-white/10 rounded px-1.5 py-0.5"><span class="iconify text-emerald-500 text-[9px]" data-icon="lucide:building-2"></span><span id="notifCompany" class="text-emerald-400/80 font-medium"></span></span>
+                        <span id="notifCity"></span>
+                        <span class="text-slate-700">•</span>
+                        <span id="notifTime" class="font-mono"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Viewer count -->
+    <div class="fixed bottom-6 left-6 z-40">
+        <div class="bg-slate-900/90 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-xs backdrop-blur-md">
+            <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+            <span class="text-slate-400"><span class="text-white font-semibold" id="viewerCount">847</span> people viewing now</span>
+        </div>
+    </div>
+
+    <script>
+        function getET() { const now = new Date(); return new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' })); }
+        function fmtTime(d) { return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }); }
+        function tickClock() { const t = fmtTime(getET()); document.getElementById('clockText').textContent = t; }
+        tickClock(); setInterval(tickClock, 1000);
+
+        // ── Countdown: 30 min, counts to zero and STOPS ──
+        let totalSeconds = 1800;
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const timerWrap = document.getElementById('timerWrap');
+        const timerLabel = document.getElementById('timerLabel');
+        const timerColon = document.getElementById('timerColon');
+        const ctaBtn = document.getElementById('ctaBtn');
+        let timerEnded = false;
+
+        function updateTimer() {
+            if (totalSeconds <= 0) {
+                if (!timerEnded) {
+                    timerEnded = true;
+                    minutesEl.textContent = '00';
+                    secondsEl.textContent = '00';
+                    timerWrap.classList.add('timer-ended');
+                    timerColon.classList.add('timer-ended');
+                    timerLabel.textContent = 'Registration Has Ended';
+                    timerLabel.classList.remove('text-slate-500');
+                    timerLabel.classList.add('text-red-400');
+                    ctaBtn.textContent = 'Join Waitlist';
+                    ctaBtn.classList.remove('bg-emerald-500', 'hover:bg-emerald-400', 'glow-green');
+                    ctaBtn.classList.add('bg-slate-600', 'hover:bg-slate-500');
+                    ctaBtn.classList.remove('hover:scale-105');
+                }
+                return;
+            }
+            if (totalSeconds <= 60 && !timerEnded) {
+                timerWrap.classList.add('timer-urgent');
+            }
+            minutesEl.textContent = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+            secondsEl.textContent = String(totalSeconds % 60).padStart(2, '0');
+            totalSeconds--;
+        }
+        setInterval(updateTimer, 1000);
+
+        // ── Data pools ──
+        const names = ['Alex T.','Jordan P.','Casey W.','Taylor S.','Morgan B.','Riley H.','Quinn F.','Avery D.','Blake N.','Drew C.','Jamie L.','Robin V.','Sam E.','Pat M.','Chris A.','Jessie R.','Dana K.','Kendall Y.','Logan U.','Harper Z.','Marcus J.','Priya S.','Lin W.','Omar H.','Nina C.','Ethan B.','Sofia M.','Tyler R.','Aisha K.','Ryan D.','Zoe L.','Carlos M.','Emily R.','Devon K.','Nadia F.','Ian P.','Mia J.','Liam O.','Olivia H.','Noah W.','Emma C.','Lucas G.','Chloe B.','Aiden S.','Ava N.','Elijah M.','Grace T.','James K.','Lily R.'];
+        const cities = ['New York, NY','Los Angeles, CA','Houston, TX','San Diego, CA','Dallas, TX','Denver, CO','Seattle, WA','Portland, OR','Nashville, TN','Charlotte, NC','Orlando, FL','Tampa, FL','Minneapolis, MN','Boston, MA','Philadelphia, PA','Detroit, MI','Las Vegas, NV','Columbus, OH','Indianapolis, IN','San Antonio, TX','Austin, TX','Miami, FL','Chicago, IL','Phoenix, AZ','Atlanta, GA','Raleigh, NC','Scottsdale, AZ','San Jose, CA','Pittsburgh, PA','Jersey City, NJ','Salt Lake City, UT','Kansas City, MO','Baltimore, MD','Milwaukee, WI','Sacramento, CA','New Orleans, LA','Cleveland, OH','Cincinnati, OH'];
+        const feedCompanies = ['Stripe','Netflix','Spotify','Airbnb','Slack','Notion','Shopify','Amazon','Tesla','Adobe','Figma','Zoom','GitHub','PayPal','Uber','Dropbox','Canva','Discord'];
+        const notifActions = [
+            'just applied for a remote position',
+            'got hired — starting next week',
+            'was invited to an interview',
+            'completed the skills assessment',
+            'got matched with a top employer',
+            'passed the screening round',
+            'submitted an application',
+            'received an offer letter',
+            'was fast-tracked for hiring',
+            'started onboarding paperwork'
+        ];
+        const notifAvatars = ['👩‍💼','👨‍💻','👩‍🎓','👨‍🔧','👩‍🔬','👨‍🎓','👩‍💻','👨‍💼','👩‍🏫','👨‍🚀','👩‍🍳','👨‍⚕️','👩‍🎨','👨‍🌾','👩‍🚒','👨‍✈️','👩‍⚖️','👨‍🏫','👩‍🔬','👨‍🔧'];
+
+        // ── Live Activity Notifications ──
+        const liveNotif = document.getElementById('liveNotif');
+        const notifText = document.getElementById('notifText');
+        const notifAvatar = document.getElementById('notifAvatar');
+        const notifCompany = document.getElementById('notifCompany');
+        const notifCity = document.getElementById('notifCity');
+        const notifTime = document.getElementById('notifTime');
+        let notifTimeout = null;
+
+        function showNotification() {
+            const name = names[Math.floor(Math.random() * names.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const company = feedCompanies[Math.floor(Math.random() * feedCompanies.length)];
+            const action = notifActions[Math.floor(Math.random() * notifActions.length)];
+            const avatar = notifAvatars[Math.floor(Math.random() * notifAvatars.length)];
+            notifAvatar.textContent = avatar;
+            notifText.textContent = name + ' ' + action;
+            notifCompany.textContent = company;
+            notifCity.textContent = city;
+            notifTime.textContent = fmtTime(getET());
+            const inner = liveNotif.querySelector('div');
+            inner.classList.remove('notif-exit');
+            inner.classList.add('notif-enter');
+            liveNotif.style.display = 'block';
+            if (notifTimeout) clearTimeout(notifTimeout);
+            notifTimeout = setTimeout(function() {
+                inner.classList.remove('notif-enter');
+                inner.classList.add('notif-exit');
+                setTimeout(function() { liveNotif.style.display = 'none'; }, 300);
+            }, 4000);
+        }
+        setTimeout(function() {
+            showNotification();
+            setInterval(showNotification, 6000 + Math.random() * 4000);
+        }, 3000);
+
+        // ── Viewer count ──
+        var ve = document.getElementById('viewerCount');
+        var v = 847;
+        setInterval(function() {
+            v += Math.floor(Math.random() * 7) - 3;
+            v = Math.max(720, Math.min(1050, v));
+            ve.textContent = v;
+        }, 2500);
+
+        // ── Dynamic Featured Openings ──
+        var allJobs = [
+            { title: 'Customer Support Specialist', company: 'Stripe', pay: '$28/hr', icon: 'lucide:headphones', iconBg: 'bg-blue-500/15', iconColor: 'text-blue-400', badge: 'Entry-Level', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'Data Entry Clerk', company: 'Spotify', pay: '$22/hr', icon: 'lucide:file-text', iconBg: 'bg-purple-500/15', iconColor: 'text-purple-400', badge: 'No Exp Required', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'Virtual Assistant', company: 'Notion', pay: '$25/hr', icon: 'lucide:message-square', iconBg: 'bg-amber-500/15', iconColor: 'text-amber-400', badge: '3 Spots Left', badgeBg: 'bg-yellow-500/15', badgeColor: 'text-yellow-400', badgePulse: false },
+            { title: 'Social Media Moderator', company: 'Netflix', pay: '$35/hr', icon: 'lucide:pen-tool', iconBg: 'bg-rose-500/15', iconColor: 'text-rose-400', badge: 'Urgent', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
+            { title: 'Remote Sales Associate', company: 'Shopify', pay: '$30/hr', icon: 'lucide:trending-up', iconBg: 'bg-green-500/15', iconColor: 'text-green-400', badge: 'High Demand', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'Chat Support Agent', company: 'Slack', pay: '$24/hr', icon: 'lucide:message-circle', iconBg: 'bg-violet-500/15', iconColor: 'text-violet-400', badge: 'Hiring Now', badgeBg: 'bg-blue-500/15', badgeColor: 'text-blue-400', badgePulse: false },
+            { title: 'Content Moderator', company: 'Airbnb', pay: '$27/hr', icon: 'lucide:shield-check', iconBg: 'bg-cyan-500/15', iconColor: 'text-cyan-400', badge: '2 Spots Left', badgeBg: 'bg-yellow-500/15', badgeColor: 'text-yellow-400', badgePulse: false },
+            { title: 'Email Support Specialist', company: 'Amazon', pay: '$26/hr', icon: 'lucide:mail', iconBg: 'bg-orange-500/15', iconColor: 'text-orange-400', badge: 'Entry-Level', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'Quality Assurance Reviewer', company: 'Tesla', pay: '$34/hr', icon: 'lucide:check-circle', iconBg: 'bg-red-500/15', iconColor: 'text-red-400', badge: 'Urgent', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
+            { title: 'Remote Admin Assistant', company: 'Figma', pay: '$23/hr', icon: 'lucide:clipboard-list', iconBg: 'bg-indigo-500/15', iconColor: 'text-indigo-400', badge: 'No Exp Required', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'Technical Support Specialist', company: 'Adobe', pay: '$32/hr', icon: 'lucide:cpu', iconBg: 'bg-sky-500/15', iconColor: 'text-sky-400', badge: '1 Spot Left', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
+            { title: 'Remote Scheduling Coordinator', company: 'Zoom', pay: '$24/hr', icon: 'lucide:calendar', iconBg: 'bg-pink-500/15', iconColor: 'text-pink-400', badge: 'Hiring Now', badgeBg: 'bg-blue-500/15', badgeColor: 'text-blue-400', badgePulse: false },
+            { title: 'Customer Success Manager', company: 'GitHub', pay: '$33/hr', icon: 'lucide:heart-handshake', iconBg: 'bg-fuchsia-500/15', iconColor: 'text-fuchsia-400', badge: 'Senior Role', badgeBg: 'bg-purple-500/15', badgeColor: 'text-purple-400', badgePulse: false },
+            { title: 'Data Analyst', company: 'PayPal', pay: '$35/hr', icon: 'lucide:bar-chart-3', iconBg: 'bg-lime-500/15', iconColor: 'text-lime-400', badge: 'Urgent', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
+            { title: 'Remote Project Coordinator', company: 'Uber', pay: '$29/hr', icon: 'lucide:layout-grid', iconBg: 'bg-amber-500/15', iconColor: 'text-amber-400', badge: '4 Spots Left', badgeBg: 'bg-yellow-500/15', badgeColor: 'text-yellow-400', badgePulse: false },
+            { title: 'Onboarding Specialist', company: 'Dropbox', pay: '$26/hr', icon: 'lucide:user-check', iconBg: 'bg-emerald-500/15', iconColor: 'text-emerald-400', badge: 'Entry-Level', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'UX Research Assistant', company: 'Canva', pay: '$31/hr', icon: 'lucide:eye', iconBg: 'bg-teal-500/15', iconColor: 'text-teal-400', badge: 'No Exp Required', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
+            { title: 'Community Moderator', company: 'Discord', pay: '$25/hr', icon: 'lucide:users', iconBg: 'bg-violet-500/15', iconColor: 'text-violet-400', badge: 'Hiring Now', badgeBg: 'bg-blue-500/15', badgeColor: 'text-blue-400', badgePulse: false }
+        ];
+
+        var JOBS_PER_PAGE = 4;
+        var totalJobPages = Math.ceil(allJobs.length / JOBS_PER_PAGE);
+        var currentJobPage = 0;
+        var isJobTransitioning = false;
+        var jobsContainer = document.getElementById('jobsContainer');
+        var jobDotsContainer = document.getElementById('jobDots');
+        var jobCounter = document.getElementById('jobCounter');
+
+        function buildJobCard(job, delay) {
+            var pulseClass = job.badgePulse ? 'spot-pulse' : '';
+            return '<div class="job-card card-glass rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-emerald-500/20 transition-all duration-300 cursor-pointer group" style="animation-delay:' + delay + 'ms"><div class="flex items-center gap-4"><div class="w-11 h-11 ' + job.iconBg + ' rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300"><span class="iconify ' + job.iconColor + ' text-xl" data-icon="' + job.icon + '"></span></div><div><p class="font-semibold text-sm group-hover:text-emerald-300 transition-colors">' + job.title + '</p><p class="text-xs text-slate-500">' + job.company + ' • Remote</p></div></div><div class="flex items-center gap-4 text-sm"><span class="text-emerald-400 font-semibold">' + job.pay + '</span><span class="text-xs ' + job.badgeBg + ' ' + job.badgeColor + ' px-2.5 py-1 rounded-full font-medium ' + pulseClass + '">' + job.badge + '</span></div></div>';
+        }
+
+        function buildJobDots() {
+            jobDotsContainer.innerHTML = '';
+            for (var i = 0; i < totalJobPages; i++) {
+                var dot = document.createElement('button');
+                dot.className = 'w-1.5 h-1.5 rounded-full transition-all duration-300 ' + (i === currentJobPage ? 'bg-emerald-400 w-4' : 'bg-slate-700 hover:bg-slate-500');
+                dot.setAttribute('aria-label', 'Show job page ' + (i + 1));
+                dot.addEventListener('click', (function(idx) { return function() { if (isJobTransitioning || idx === currentJobPage) return; goToJobPage(idx); }; })(i));
+                jobDotsContainer.appendChild(dot);
+            }
+        }
+
+        function renderJobs(pageIndex, animate) {
+            var start = pageIndex * JOBS_PER_PAGE;
+            var pageJobs = allJobs.slice(start, start + JOBS_PER_PAGE);
+            jobCounter.textContent = (start + 1) + '–' + Math.min(start + JOBS_PER_PAGE, allJobs.length) + ' of ' + allJobs.length;
+            if (animate) {
+                jobsContainer.querySelectorAll('.job-card').forEach(function(card, i) { card.style.animationDelay = (i * 50) + 'ms'; card.classList.add('job-exit'); });
+                setTimeout(function() {
+                    jobsContainer.innerHTML = pageJobs.map(function(j, i) { return buildJobCard(j, i * 80); }).join('');
+                    jobsContainer.querySelectorAll('.job-card').forEach(function(card) { card.classList.add('job-enter'); });
+                    isJobTransitioning = false;
+                }, 320);
+            } else {
+                jobsContainer.innerHTML = pageJobs.map(function(j, i) { return buildJobCard(j, i * 80); }).join('');
+                jobsContainer.querySelectorAll('.job-card').forEach(function(card) { card.classList.add('job-enter'); });
+                isJobTransitioning = false;
+            }
+        }
+
+        function goToJobPage(pageIndex) {
+            if (isJobTransitioning) return;
+            isJobTransitioning = true;
+            currentJobPage = pageIndex;
+            buildJobDots();
+            renderJobs(currentJobPage, true);
+        }
+
+        renderJobs(0, false);
+        buildJobDots();
+        var jobAutoInterval = setInterval(function() { if (isJobTransitioning) return; goToJobPage((currentJobPage + 1) % totalJobPages); }, 4000);
+        jobsContainer.addEventListener('mouseenter', function() { clearInterval(jobAutoInterval); });
+        jobsContainer.addEventListener('mouseleave', function() { jobAutoInterval = setInterval(function() { if (isJobTransitioning) return; goToJobPage((currentJobPage + 1) % totalJobPages); }, 4000); });
+        document.getElementById('jobPrev').addEventListener('click', function() { if (isJobTransitioning) return; goToJobPage((currentJobPage - 1 + totalJobPages) % totalJobPages); });
+        document.getElementById('jobNext').addEventListener('click', function() { if (isJobTransitioning) return; goToJobPage((currentJobPage + 1) % totalJobPages); });
+
+        // ── Dynamic Success Stories ──
+        var allStories = [
+            { quote: "I was skeptical at first, but within 2 weeks I had a remote customer support role paying $28/hr. I quit my retail job and I've never been happier. The training was incredibly helpful.", name: "Sarah R.", initials: "SR", gradient: "from-emerald-500 to-cyan-500", role: "Customer Support", city: "Austin, TX", earning: "Now earning $28/hr — up from $14/hr" },
+            { quote: "Zero experience in data entry and I still got hired within 10 days. The process was so smooth. Now I work from my apartment in Miami and make more than my friends with college degrees.", name: "Marcus J.", initials: "MJ", gradient: "from-purple-500 to-pink-500", role: "Data Entry Clerk", city: "Miami, FL", earning: "Now earning $22/hr — was unemployed" },
+            { quote: "As a single mom, I needed flexibility. I got matched with a VA role that lets me set my own hours. I make $25/hr and I'm home when my kids get off the bus. Life-changing.", name: "Lisa P.", initials: "LP", gradient: "from-amber-500 to-orange-500", role: "Virtual Assistant", city: "Nashville, TN", earning: "Now earning $25/hr — up from $16/hr" },
+            { quote: "I was working two jobs just to make ends meet in LA. Found a social media moderator position here and it paid more than both jobs combined. Applied on Monday, hired by Friday.", name: "Derek K.", initials: "DK", gradient: "from-blue-500 to-indigo-500", role: "Social Media Moderator", city: "Los Angeles, CA", earning: "Now earning $35/hr — replaced 2 jobs" },
+            { quote: "Fresh out of high school with no idea what to do. This platform connected me with a remote sales associate role. The onboarding was step-by-step and I felt supported the whole way.", name: "Aisha N.", initials: "AN", gradient: "from-rose-500 to-red-500", role: "Remote Sales Associate", city: "Atlanta, GA", earning: "Now earning $30/hr — first real job" },
+            { quote: "After being laid off from my warehouse job, I found a data entry position through RemoteHire in less than a week. The weekly direct deposits are a game changer for my family budget.", name: "Tyler W.", initials: "TW", gradient: "from-teal-500 to-emerald-500", role: "Data Entry Clerk", city: "Dallas, TX", earning: "Now earning $24/hr — rebounded from layoff" },
+            { quote: "I was a barista for 4 years and thought I'd never escape. Applied on a Sunday night, had an interview Tuesday, and started my remote admin role the following Monday. Absolutely unreal.", name: "Hannah M.", initials: "HM", gradient: "from-fuchsia-500 to-pink-500", role: "Remote Admin Assistant", city: "Portland, OR", earning: "Now earning $26/hr — up from $13/hr" },
+            { quote: "My husband and I both got hired through RemoteHire within the same month. We cleared our debt in 3 months. This platform genuinely changes lives if you put in the effort.", name: "Rachel & Tom B.", initials: "RT", gradient: "from-cyan-500 to-blue-500", role: "Customer Success Manager", city: "Charlotte, NC", earning: "Now earning $32/hr combined household boost" },
+            { quote: "I'm 58 and was told I'm 'too old' for tech. RemoteHire matched me with a scheduling coordinator role that values experience. Proved every doubter wrong and I love my job.", name: "Diane L.", initials: "DL", gradient: "from-violet-500 to-purple-500", role: "Scheduling Coordinator", city: "Pittsburgh, PA", earning: "Now earning $27/hr — age is just a number" },
+            { quote: "Moved to a small town in Colorado for the mountains but couldn't find work. RemoteHire gave me access to city-level pay while living my dream lifestyle. No more commute ever.", name: "Jake S.", initials: "JS", gradient: "from-lime-500 to-emerald-500", role: "Content Moderator", city: "Boulder, CO", earning: "Now earning $29/hr — living the dream" },
+            { quote: "I have social anxiety and the thought of office interviews terrified me. The entire RemoteHire process was virtual and low-pressure. Now I do chat support from my quiet home office.", name: "Kim T.", initials: "KT", gradient: "from-sky-500 to-cyan-500", role: "Chat Support Agent", city: "Minneapolis, MN", earning: "Now earning $24/hr — thriving remotely" },
+            { quote: "Was making $11/hr at a grocery store. Now I do quality assurance for a SaaS company from my laptop at $33/hr. Same effort, completely different life. I'm not going back.", name: "DeAndre C.", initials: "DC", gradient: "from-orange-500 to-red-500", role: "QA Reviewer", city: "Houston, TX", earning: "Now earning $33/hr — tripled my income" },
+            { quote: "I applied to 200+ jobs on Indeed with zero callbacks. One application on RemoteHire and I had 3 interview invites in a week. The difference is night and day.", name: "Natalie V.", initials: "NV", gradient: "from-pink-500 to-rose-500", role: "Email Support Specialist", city: "San Diego, CA", earning: "Now earning $26/hr — after 200+ rejections elsewhere" },
+            { quote: "Needed a side income while finishing my degree. This turned into a full-time role that pays better than what my degree was going to get me. Sometimes the best plan is no plan.", name: "Ryan G.", initials: "RG", gradient: "from-indigo-500 to-violet-500", role: "Remote Project Coordinator", city: "Chicago, IL", earning: "Now earning $31/hr — better than expected grad salary" },
+            { quote: "My wheelchair made commuting impossible. RemoteHire didn't just give me a job — they gave me independence. I do data analysis from home and I've never felt more capable.", name: "Monica R.", initials: "MR", gradient: "from-emerald-400 to-teal-500", role: "Data Analyst", city: "Phoenix, AZ", earning: "Now earning $30/hr — true independence" }
+        ];
+
+        var storiesGrid = document.getElementById('storiesGrid');
+        var storyDots = document.getElementById('storyDots');
+        var STORIES_PER_PAGE = 3;
+        var totalPages = Math.ceil(allStories.length / STORIES_PER_PAGE);
+        var currentPage = 0;
+        var isTransitioning = false;
+
+        function buildStoryCard(story, delay) {
+            return '<div class="story-card card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300 flex flex-col" style="animation-delay:' + delay + 'ms"><div class="flex items-center gap-1 mb-4"><span class="text-yellow-400 star-glow text-sm">★★★★★</span></div><p class="text-sm text-slate-300 leading-relaxed flex-1 mb-5">"' + story.quote + '"</p><div class="flex items-center gap-3 pt-4 border-t border-white/5"><div class="w-10 h-10 bg-gradient-to-br ' + story.gradient + ' rounded-full flex items-center justify-center text-sm font-bold">' + story.initials + '</div><div><p class="text-sm font-semibold">' + story.name + '</p><p class="text-[11px] text-slate-500">' + story.role + ' • ' + story.city + '</p></div></div><div class="mt-4 inline-flex items-center gap-1.5 text-emerald-400 text-xs font-medium"><span class="iconify text-sm" data-icon="lucide:banknote"></span>' + story.earning + '</div></div>';
+        }
+
+        function buildDots() {
+            storyDots.innerHTML = '';
+            for (var i = 0; i < totalPages; i++) {
+                var dot = document.createElement('button');
+                dot.className = 'w-2 h-2 rounded-full transition-all duration-300 ' + (i === currentPage ? 'bg-emerald-400 w-6' : 'bg-slate-600 hover:bg-slate-500');
+                dot.setAttribute('aria-label', 'Show story set ' + (i + 1));
+                dot.addEventListener('click', (function(idx) { return function() { if (isTransitioning || idx === currentPage) return; goToPage(idx); }; })(i));
+                storyDots.appendChild(dot);
+            }
+        }
+
+        function renderStories(pageIndex, animate) {
+            var start = pageIndex * STORIES_PER_PAGE;
+            var pageStories = allStories.slice(start, start + STORIES_PER_PAGE);
+            if (animate) {
+                storiesGrid.querySelectorAll('.story-card').forEach(function(card, i) { card.style.animationDelay = (i * 60) + 'ms'; card.classList.add('story-exit'); });
+                setTimeout(function() {
+                    storiesGrid.innerHTML = pageStories.map(function(s, i) { return buildStoryCard(s, i * 100); }).join('');
+                    storiesGrid.querySelectorAll('.story-card').forEach(function(card) { card.classList.add('story-enter'); });
+                    isTransitioning = false;
+                }, 380);
+            } else {
+                storiesGrid.innerHTML = pageStories.map(function(s, i) { return buildStoryCard(s, i * 100); }).join('');
+                storiesGrid.querySelectorAll('.story-card').forEach(function(card) { card.classList.add('story-enter'); });
+                isTransitioning = false;
+            }
+        }
+
+        function goToPage(pageIndex) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentPage = pageIndex;
+            buildDots();
+            renderStories(currentPage, true);
+        }
+
+        renderStories(0, false);
+        buildDots();
+
+        var storyInterval = setInterval(function() { if (isTransitioning) return; goToPage((currentPage + 1) % totalPages); }, 5000);
+        storiesGrid.addEventListener('mouseenter', function() { clearInterval(storyInterval); });
+        storiesGrid.addEventListener('mouseleave', function() { storyInterval = setInterval(function() { if (isTransitioning) return; goToPage((currentPage + 1) % totalPages); }, 5000); });
+    </script>
+</body>
+</html>
