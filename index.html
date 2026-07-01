@@ -52,7 +52,14 @@
     <div class="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium tracking-wide">
         🚀 Over 5,000+ Placements in 2026 — <a href="#" class="underline underline-offset-2">Apply Now</a>
     </div>
+<script>
+document.getElementById("applyNowLink").addEventListener("click", function(e) {
+    e.preventDefault(); // page jump বন্ধ করবে
 
+    // CTA button click trigger করবে
+    document.getElementById("ctaBtn").click();
+});
+</script>
     <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
