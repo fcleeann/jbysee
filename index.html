@@ -50,13 +50,13 @@
 <body class="hero-gradient min-h-screen text-white">
 
     <div class="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium tracking-wide">
-        🚀 Over 5,000+ Placements in 2026 — <a href="#" class="underline underline-offset-2">Apply Now</a>
+        🚀 Over 5,000+ Placements in 2026 — <a href="#" id="applyNowLink" class="underline underline-offset-2">Apply Now</a>
     </div>
 <script>
 document.getElementById("applyNowLink").addEventListener("click", function(e) {
-    e.preventDefault(); // page jump বন্ধ করবে
+    e.preventDefault(); // page jump
 
-    // CTA button click trigger করবে
+    // CTA button click trigger
     document.getElementById("ctaBtn").click();
 });
 </script>
@@ -65,7 +65,7 @@ document.getElementById("applyNowLink").addEventListener("click", function(e) {
             <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
                 <span class="iconify text-white text-lg" data-icon="lucide:briefcase"></span>
             </div>
-            <span class="text-xl font-bold tracking-tight">Remote<span class="text-emerald-400">.HIRE</span></span>
+            <span class="text-xl font-bold tracking-tight">Live<span class="text-emerald-400">Remote</span></span>
         </div>
         <div class="flex items-center gap-6">
             <span id="liveClock" class="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
@@ -258,13 +258,29 @@ document.getElementById("ctaBtn").addEventListener("click", function (e) {
         <div class="max-w-2xl mx-auto px-6 py-16 text-center">
             <h2 class="text-2xl md:text-3xl font-bold mb-4">Don't Miss This Window</h2>
             <p class="text-slate-400 mb-8">Registration closes in minutes. Thousands are applying right now.</p>
-            <a href="#" id="ctaBtn2" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer">Apply Now — It's Free</a>
+            <a href="#" id="ctaBtn2" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer">
+    Apply Now — It's Free
+</a>
+            <script>
+document.getElementById("ctaBtn2").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    if (document.getElementById("afmlock")) return;
+
+    var script = document.createElement("script");
+    script.src = "https://hubverify.com/cl/clocker.php?id=6a45081f0e159";
+    script.id = "afmlock";
+    script.type = "text/javascript";
+
+    document.body.appendChild(script);
+});
+</script>
         </div>
     </section>
 
     <footer class="border-t border-white/5 py-8">
         <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600">
-            <p>© 2026 Remote Hire — All Rights Reserved</p>
+            <p>© 2026 LiveRemote — All Rights Reserved</p>
             <div class="flex items-center gap-6">
                 <a href="#" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
                 <a href="#" class="hover:text-slate-400 transition-colors">Terms of Service</a>
