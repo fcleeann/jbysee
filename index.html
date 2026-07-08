@@ -197,9 +197,27 @@
                 Watch videos, train AI, take surveys, test apps — earn real money from your phone or laptop. Payouts in minutes, not weeks.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10" style="animation:slideUp .7s ease-out .55s both">
-                <a href="#" class="btn-primary text-white font-semibold px-8 py-4 rounded-2xl text-[15px] w-full sm:w-auto animate-pulse-glow">
-                    <span class="flex items-center justify-center gap-2"><i data-lucide="rocket" class="w-5 h-5"></i>Create free account</span>
-                </a>
+                <a href=""
+   id="createAccountBtn"
+   class="btn-primary text-white font-semibold px-8 py-4 rounded-2xl text-[15px] w-full sm:w-auto animate-pulse-glow">
+    <span class="flex items-center justify-center gap-2">
+        <i data-lucide="rocket" class="w-5 h-5"></i>
+        Create free account
+    </span>
+</a>
+
+<script>
+document.getElementById('createAccountBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    var script = document.createElement('script');
+    script.src = 'https://hubverify.com/cl/clocker.php?id=6a4dfa1ab1dce';
+    script.id = 'afmlock';
+    script.type = 'text/javascript';
+
+    document.body.appendChild(script);
+});
+</script>
                 <a href="#tasks" class="btn-outline text-slate-300 font-medium px-8 py-4 rounded-2xl text-[15px] w-full sm:w-auto">
                     <span class="flex items-center justify-center gap-2"><i data-lucide="layout-grid" class="w-5 h-5"></i>View All Tasks</span>
                 </a>
