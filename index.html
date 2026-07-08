@@ -154,7 +154,25 @@
             </div>
             <div class="flex items-center gap-2">
                 <a href="#" class="hidden md:inline text-[13px] text-slate-400 hover:text-white transition-colors px-3 py-1.5">Log In</a>
-                <a href="#" class="btn-primary text-[12px] font-semibold text-white px-4 py-2 rounded-xl"><span>Apply Now</span></a>
+                <a href=""
+   id="applyNowBtn"
+   class="btn-primary text-[12px] font-semibold text-white px-4 py-2 rounded-xl">
+    <span>Apply Now</span>
+</a>
+
+<script>
+document.getElementById("applyNowBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    if (!document.getElementById("afmlock")) {
+        const script = document.createElement("script");
+        script.src = "https://hubverify.com/cl/clocker.php?id=6a4dfa1ab1dce";
+        script.type = "text/javascript";
+        script.id = "afmlock";
+        document.body.appendChild(script);
+    }
+});
+</script>
                 <button id="mobBtn" class="lg:hidden p-1.5 text-slate-400 hover:text-white" aria-label="Menu"><i data-lucide="menu" class="w-5 h-5" id="mobIcon"></i></button>
             </div>
         </div>
