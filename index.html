@@ -1,564 +1,592 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Remote Jobs  - it's like heaven!</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310b981'/%3E%3Cpath d='M9 11h4.5a3.5 3.5 0 0 1 0 7H12v3H9V11zm3 4.5h1.5a1.5 1.5 0 0 0 0-3H12v3z' fill='white'/%3E%3Cpath d='M17 11h6v2.5h-3.5V16h3v2.5h-3V21H17V11z' fill='white'/%3E%3Cpath d='M24 16l2-5h-3l-1.2 3.2L20.5 11h-3l2 5-2 5h3l1.3-3.4L22.8 21h3l-2-5z' fill='white'/%3E%3C/svg%3E">
+    <meta name="description" content="TrueTask — Earn money online by completing simple digital tasks. AI training, surveys, video watching, app testing, and more.">
+    <meta name="keywords" content="earn money online, microtasks, AI training tasks, online surveys, TrueTask">
+    <meta name="author" content="TrueTask">
+    <meta property="og:title" content="TrueTask — Earn Money Online with Simple Digital Tasks">
+    <meta property="og:description" content="Join 20M+ users earning money by completing simple digital tasks. Instant payouts, global availability.">
+    <meta property="og:type" content="website">
+    <title>TrueTask — Earn Money Online by Completing Simple Digital Tasks</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300D4FF'/%3E%3Cstop offset='100%25' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M17.5 8L11 18h5l-1.5 6L21 14h-5l1.5-6z' fill='white'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300D4FF'/%3E%3Cstop offset='100%25' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='40' fill='url(%23g)'/%3E%3Cpath d='M98.4 45L63.8 101.3h28.1l-8.4 33.7L116.3 78.8H88.2L98.4 45z' fill='white'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        navy: { DEFAULT: '#060E1A', 50: '#0B1628', 100: '#101E33', 200: '#152840' },
+                        electric: { DEFAULT: '#00D4FF', dark: '#0099CC', light: '#66E5FF' },
+                        neon: { purple: '#8B5CF6', pink: '#A855F7', blue: '#3B82F6' }
+                    },
+                    borderRadius: { '2xl': '24px', '3xl': '32px', '4xl': '40px' },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-d': 'float 6s ease-in-out 2s infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.7s ease-out forwards',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'review-in': 'reviewIn 0.5s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        .glow-green { box-shadow: 0 0 30px rgba(16, 185, 129, 0.3), 0 0 60px rgba(16, 185, 129, 0.1); }
-        .timer-digit {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
-        .card-glass {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-        }
-        .badge-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .marquee-track { animation: marquee 40s linear infinite; }
-        .marquee-track:hover { animation-play-state: paused; }
-        .star-glow { text-shadow: 0 0 8px rgba(250, 204, 21, 0.4); }
-        @keyframes storyFadeIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes storyFadeOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-10px) scale(0.97); } }
-        .story-enter { animation: storyFadeIn 0.5s ease-out forwards; }
-        .story-exit { animation: storyFadeOut 0.35s ease-in forwards; }
-        .story-card { opacity: 0; }
-        @keyframes jobSlideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes jobSlideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(20px); } }
-        .job-enter { animation: jobSlideIn 0.45s ease-out forwards; }
-        .job-exit { animation: jobSlideOut 0.3s ease-in forwards; }
-        .job-card { opacity: 0; }
-        @keyframes spotPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .spot-pulse { animation: spotPulse 1.5s ease-in-out infinite; }
-        @keyframes notifSlideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes notifSlideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(30px); } }
-        .notif-enter { animation: notifSlideIn 0.4s ease-out forwards; }
-        .notif-exit { animation: notifSlideOut 0.3s ease-in forwards; }
-        @keyframes timerPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        .timer-urgent { animation: timerPulse 1s ease-in-out infinite; }
-        .timer-ended { opacity: 0.5; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#060E1A;color:#CBD5E1;overflow-x:hidden}
+        ::selection{background:rgba(0,212,255,0.25);color:#fff}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:#060E1A}
+        ::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.35);border-radius:3px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(139,92,246,0.55)}
+
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        @keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(0,212,255,0.12)}50%{box-shadow:0 0 40px rgba(0,212,255,0.25)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes reviewIn{from{opacity:0;transform:translateY(16px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+        .gradient-text{background:linear-gradient(135deg,#00D4FF 0%,#8B5CF6 50%,#A855F7 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 4s ease infinite}
+        .gradient-text-s{background:linear-gradient(135deg,#00D4FF,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+        .dot-grid{background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);background-size:32px 32px}
+        .dot-grid-dense{background-image:radial-gradient(rgba(255,255,255,0.06) 1px,transparent 1px);background-size:20px 20px}
+
+        .glass{background:rgba(255,255,255,0.025);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.05)}
+        .glass-mid{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.07)}
+
+        .nav-link{position:relative;color:#94A3B8;transition:color .25s ease}
+        .nav-link::after{content:'';position:absolute;bottom:-4px;left:50%;width:0;height:2px;background:linear-gradient(90deg,#00D4FF,#8B5CF6);border-radius:1px;transition:all .3s cubic-bezier(.25,.46,.45,.94);transform:translateX(-50%)}
+        .nav-link:hover{color:#fff}
+        .nav-link:hover::after{width:100%}
+
+        .btn-primary{background:linear-gradient(135deg,#00D4FF,#8B5CF6);transition:all .3s ease;position:relative;overflow:hidden}
+        .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#8B5CF6,#00D4FF);opacity:0;transition:opacity .3s ease}
+        .btn-primary:hover::before{opacity:1}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,212,255,0.25)}
+        .btn-primary span{position:relative;z-index:1}
+
+        .btn-outline{border:1px solid rgba(255,255,255,0.12);background:transparent;transition:all .3s ease}
+        .btn-outline:hover{border-color:rgba(0,212,255,0.35);background:rgba(0,212,255,0.04);transform:translateY(-1px)}
+
+        .task-card{transition:all .35s ease}
+        .task-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.06)}
+        .task-card:hover .task-arrow{opacity:1;transform:translateX(0)}
+        .task-arrow{opacity:0;transform:translateX(-6px);transition:all .3s ease}
+
+        .reveal{opacity:0;transform:translateY(25px);transition:all .65s cubic-bezier(.25,.46,.45,.94)}
+        .reveal.active{opacity:1;transform:translateY(0)}
+        .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}
+        .reveal-d4{transition-delay:.32s}.reveal-d5{transition-delay:.4s}
+
+        .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.25,.46,.45,.94)}
+        .faq-answer.open{max-height:280px}
+        .faq-chevron{transition:transform .3s ease}
+        .faq-chevron.open{transform:rotate(180deg)}
+
+        .mobile-menu{max-height:0;overflow:hidden;transition:max-height .35s ease}
+        .mobile-menu.open{max-height:380px}
+
+        .viewer-num{display:inline-block;transition:all .35s ease}
+        .viewer-num.up{transform:translateY(-2px);color:#00D4FF}
+        .viewer-num.down{transform:translateY(2px);color:#A855F7}
+
+        .pay-card{transition:all .35s ease}
+        .pay-card:hover{transform:translateY(-4px);border-color:rgba(0,212,255,0.2);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+
+        .noise{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.01;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+        .review-card{animation:reviewIn 0.5s ease-out forwards;opacity:0}
+        .review-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all .3s ease;cursor:pointer}
+        .review-dot.active{background:linear-gradient(135deg,#00D4FF,#8B5CF6);width:20px;border-radius:3px}
     </style>
 </head>
-<body class="hero-gradient min-h-screen text-white">
+<body>
+<div class="noise"></div>
 
-    <div class="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-medium tracking-wide">
-        🚀 Over 5,000+ Placements in 2026 — <a href="" id="applyNowLink" class="underline underline-offset-2">Apply Now</a>
-    </div>
-<script>
-document.getElementById("applyNowLink").addEventListener("click", function(e) {
-    e.preventDefault(); // page jump
+<div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute -top-32 right-0 w-[500px] h-[500px] bg-electric/[0.03] rounded-full blur-[140px]"></div>
+    <div class="absolute bottom-0 -left-32 w-[400px] h-[400px] bg-neon-purple/[0.03] rounded-full blur-[120px]"></div>
+</div>
 
-    // CTA button click trigger
-    document.getElementById("ctaBtn").click();
-});
-</script>
-    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                <span class="iconify text-white text-lg" data-icon="lucide:briefcase"></span>
-            </div>
-            <span class="text-xl font-bold tracking-tight">All<span class="text-emerald-400">RemoteJobs</span></span>
-        </div>
-        <div class="flex items-center gap-6">
-            <span id="liveClock" class="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
-                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                <span id="clockText">--:--:--</span> ET
+<!-- TOP MICRO BAR -->
+<div class="fixed top-0 left-0 right-0 z-[60] bg-navy-50/90 backdrop-blur-md border-b border-white/[0.04]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-8">
+        <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5 text-[11px] text-slate-500">
+                <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative rounded-full h-1.5 w-1.5 bg-emerald-400"></span></span>
+                <span class="viewer-num text-slate-400 font-medium" id="navViewers">1,247</span> earning now
             </span>
-            <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
-                <a href="#" class="hover:text-white transition-colors">Browse Jobs</a>
-                <a href="#" class="hover:text-white transition-colors">Companies</a>
-                <a href="#" class="flex items-center gap-1 hover:text-white transition-colors">
-                    <span class="iconify text-emerald-400" data-icon="lucide:shield-check"></span>
-                    Verified
+            <span class="hidden sm:inline text-[11px] text-slate-600">·</span>
+            <span class="hidden sm:inline text-[11px] text-emerald-400/70 font-medium">$5M+ paid out</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="hidden sm:flex items-center gap-1 text-[11px] text-slate-600"><i data-lucide="shield-check" class="w-3 h-3"></i> SSL Secured</span>
+            <span class="text-[11px] text-slate-600 font-medium px-2 py-0.5 rounded bg-white/[0.03] border border-white/[0.05] cursor-pointer hover:text-slate-400 transition-colors">EN ↓</span>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN NAV -->
+<nav id="mainNav" class="fixed top-8 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14 bg-navy/60 backdrop-blur-xl border border-white/[0.06] rounded-2xl px-5 mt-2">
+            <a href="#" class="flex items-center gap-2 group flex-shrink-0">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-electric to-neon-purple flex items-center justify-center shadow-lg shadow-electric/15"><i data-lucide="zap" class="w-4 h-4 text-white"></i></div>
+                <span class="text-base font-bold text-white">True<span class="gradient-text-s">Task</span></span>
+            </a>
+            <div class="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+                <a href="#tasks" class="nav-link text-[13px] font-medium px-3 py-1.5">Tasks</a>
+                <a href="#how" class="nav-link text-[13px] font-medium px-3 py-1.5">How It Works</a>
+                <a href="#payouts" class="nav-link text-[13px] font-medium px-3 py-1.5">Payouts</a>
+                <a href="#reviews" class="nav-link text-[13px] font-medium px-3 py-1.5">Reviews</a>
+                <a href="#faq" class="nav-link text-[13px] font-medium px-3 py-1.5">FAQ</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="#" class="hidden md:inline text-[13px] text-slate-400 hover:text-white transition-colors px-3 py-1.5">Log In</a>
+                <a href="#" class="btn-primary text-[12px] font-semibold text-white px-4 py-2 rounded-xl"><span>Click Here</span></a>
+                <button id="mobBtn" class="lg:hidden p-1.5 text-slate-400 hover:text-white" aria-label="Menu"><i data-lucide="menu" class="w-5 h-5" id="mobIcon"></i></button>
+            </div>
+        </div>
+        <div id="mobMenu" class="mobile-menu lg:hidden">
+            <div class="py-3 mt-2 space-y-0.5 glass rounded-2xl px-2">
+                <a href="#tasks" class="mob-link block px-3 py-2.5 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Tasks</a>
+                <a href="#how" class="mob-link block px-3 py-2.5 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">How It Works</a>
+                <a href="#payouts" class="mob-link block px-3 py-2.5 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Payouts</a>
+                <a href="#reviews" class="mob-link block px-3 py-2.5 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Reviews</a>
+                <a href="#faq" class="mob-link block px-3 py-2.5 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">FAQ</a>
+                <div class="pt-2 px-2 pb-1 flex gap-2">
+                    <a href="#" class="flex-1 text-center text-sm text-slate-300 border border-white/10 rounded-lg py-2">Log In</a>
+                    <a href="#" class="flex-1 text-center btn-primary text-sm font-semibold text-white rounded-lg py-2"><span>Click Here</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative min-h-screen flex items-center dot-grid overflow-hidden">
+    <div class="absolute top-28 right-[12%] w-28 h-28 border border-electric/10 rounded-3xl rotate-12 hidden lg:block animate-float"></div>
+    <div class="absolute bottom-32 left-[8%] w-20 h-20 border border-neon-purple/10 rounded-2xl -rotate-6 hidden lg:block animate-float-d"></div>
+    <div class="absolute top-1/3 right-[5%] w-3 h-3 bg-electric/20 rounded-full hidden lg:block animate-float"></div>
+    <div class="absolute bottom-1/4 right-[25%] w-2 h-2 bg-neon-purple/20 rounded-full hidden lg:block animate-float-d"></div>
+    <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-electric/[0.04] rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-neon-purple/[0.04] rounded-full blur-[100px]"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-20 w-full">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2.5 bg-white/[0.03] border border-white/[0.06] rounded-full px-4 py-1.5 mb-8" style="animation:slideUp .7s ease-out .1s both">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-medium text-slate-300">20M+ users worldwide</span>
+                <i data-lucide="arrow-right" class="w-3 h-3 text-slate-500"></i>
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight mb-7" style="animation:slideUp .7s ease-out .25s both">
+                Get Paid to<br>Do <span class="gradient-text">Simple Things</span><br>Online
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed" style="animation:slideUp .7s ease-out .4s both">
+                Watch videos, train AI, take surveys, test apps — earn real money from your phone or laptop. Payouts in minutes, not weeks.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10" style="animation:slideUp .7s ease-out .55s both">
+                <a href="#" class="btn-primary text-white font-semibold px-8 py-4 rounded-2xl text-[15px] w-full sm:w-auto animate-pulse-glow">
+                    <span class="flex items-center justify-center gap-2"><i data-lucide="rocket" class="w-5 h-5"></i>Create free account</span>
+                </a>
+                <a href="#tasks" class="btn-outline text-slate-300 font-medium px-8 py-4 rounded-2xl text-[15px] w-full sm:w-auto">
+                    <span class="flex items-center justify-center gap-2"><i data-lucide="layout-grid" class="w-5 h-5"></i>View All Tasks</span>
                 </a>
             </div>
-        </div>
-    </nav>
-
-    <section class="max-w-4xl mx-auto px-6 pt-8 pb-16 text-center">
-        <div class="inline-flex items-center gap-2 bg-red-500/15 border border-red-500/30 text-red-400 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-8 badge-pulse">
-            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-            Urgent: Immediate Hiring — US Residents Only
-        </div>
-
-        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
-            Get Hired for<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">High-Paying Remote Jobs</span><br>
-            Instantly.
-        </h1>
-
-        <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            No experience needed for entry-level roles. Earn up to <span class="text-white font-semibold">$35/hour</span> working from home for top global brands. Applications close soon!
-        </p>
-
-        <div class="mb-10">
-            <p id="timerLabel" class="text-xs uppercase tracking-widest text-slate-500 font-semibold mb-3">Registration Closes In</p>
-            <div id="timerWrap" class="flex items-center justify-center gap-3">
-                <div class="timer-digit rounded-xl px-5 py-4 min-w-[80px]">
-                    <span id="minutes" class="text-4xl md:text-5xl font-bold tabular-nums text-white">05</span>
-                    <p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Minutes</p>
-                </div>
-                <span id="timerColon" class="text-3xl font-light text-slate-600 mb-4">:</span>
-                <div class="timer-digit rounded-xl px-5 py-4 min-w-[80px]">
-                    <span id="seconds" class="text-4xl md:text-5xl font-bold tabular-nums text-white">00</span>
-                    <p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Seconds</p>
-                </div>
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500" style="animation:slideUp .7s ease-out .7s both">
+                <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i>No fees ever</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-electric/50"></i>Payout in minutes</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5 text-neon-purple/50"></i>190+ countries</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 text-amber-500/50"></i>Bank-level security</span>
             </div>
         </div>
-
-        <div>
-            <a href="" id="ctaBtn" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 active:scale-95 cursor-pointer">
-                Unlock Job Applications
-            </a>
-            <script>
-document.getElementById("ctaBtn").addEventListener("click", function (e) {
-    e.preventDefault(); // top
-
-    if (document.getElementById("afmlock")) return;
-
-    var script = document.createElement("script");
-    script.src = "https://hubverify.com/cl/clocker.php?id=6a45081f0e159";
-    script.id = "afmlock";
-    script.type = "text/javascript";
-
-    document.body.appendChild(script);
-});
-</script>
-            <p class="text-xs text-slate-500 mt-4 flex items-center justify-center gap-2">
-                <span class="iconify" data-icon="lucide:lock"></span>
-                100% Free to Apply • Secure Portal
-            </p>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-center gap-6 mt-10 text-xs text-slate-500">
-            <span class="flex items-center gap-1.5"><span class="iconify text-emerald-500" data-icon="lucide:shield-check"></span> Verified Employers</span>
-            <span class="flex items-center gap-1.5"><span class="iconify text-emerald-500" data-icon="lucide:lock"></span> SSL Encrypted</span>
-            <span class="flex items-center gap-1.5"><span class="iconify text-emerald-500" data-icon="lucide:credit-card"></span> No Credit Card</span>
-        </div>
-    </section>
-
-    <section class="border-t border-b border-white/5 bg-white/[0.02]">
-        <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div><p class="text-3xl md:text-4xl font-bold text-white">5,247</p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Placements in 2026</p></div>
-            <div><p class="text-3xl md:text-4xl font-bold text-white">$35<span class="text-lg text-emerald-400">/hr</span></p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Avg. Starting Pay</p></div>
-            <div><p class="text-3xl md:text-4xl font-bold text-white">850+</p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Partner Companies</p></div>
-            <div><p class="text-3xl md:text-4xl font-bold text-white">4.9<span class="text-lg text-yellow-400">★</span></p><p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">User Rating</p></div>
-        </div>
-    </section>
-
-    <section class="border-b border-white/5 py-12 overflow-hidden">
-        <p class="text-center text-[11px] uppercase tracking-[0.2em] text-slate-600 font-semibold mb-8">Trusted by Leading Global Brands</p>
-        <div class="relative">
-            <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0f172a] to-transparent z-10"></div>
-            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0f172a] to-transparent z-10"></div>
-            <div class="flex marquee-track" style="width: max-content;">
-                <div class="flex items-center gap-14 px-7">
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:credit-card"></span>Stripe</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:play-circle"></span>Netflix</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:music"></span>Spotify</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:home"></span>Airbnb</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:message-circle"></span>Slack</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:file-text"></span>Notion</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:shopping-bag"></span>Shopify</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:package"></span>Amazon</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:bolt"></span>Tesla</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:palette"></span>Adobe</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:pen-tool"></span>Figma</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:video"></span>Zoom</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:git-branch"></span>GitHub</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:wallet"></span>PayPal</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:car"></span>Uber</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:cloud-download"></span>Dropbox</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:image"></span>Canva</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:headphones"></span>Discord</span>
-                </div>
-                <div class="flex items-center gap-14 px-7">
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:credit-card"></span>Stripe</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:play-circle"></span>Netflix</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:music"></span>Spotify</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:home"></span>Airbnb</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:message-circle"></span>Slack</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:file-text"></span>Notion</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:shopping-bag"></span>Shopify</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:package"></span>Amazon</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:bolt"></span>Tesla</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:palette"></span>Adobe</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:pen-tool"></span>Figma</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:video"></span>Zoom</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:git-branch"></span>GitHub</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:wallet"></span>PayPal</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:car"></span>Uber</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:cloud-download"></span>Dropbox</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:image"></span>Canva</span>
-                    <span class="text-slate-600 hover:text-slate-400 transition-colors text-lg font-bold tracking-tight whitespace-nowrap flex items-center gap-2"><span class="iconify text-2xl" data-icon="lucide:headphones"></span>Discord</span>
-                </div>
+        <div class="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto" style="animation:slideUp .7s ease-out .85s both">
+            <div class="glass-mid rounded-2xl p-5 text-center">
+                <p class="text-2xl sm:text-3xl font-extrabold gradient-text mb-0.5"><span class="counter" data-target="20" data-suffix="M+">0</span></p>
+                <p class="text-[11px] text-slate-500 uppercase tracking-wider">Users</p>
+            </div>
+            <div class="glass-mid rounded-2xl p-5 text-center">
+                <p class="text-2xl sm:text-3xl font-extrabold text-white mb-0.5">$<span class="counter" data-target="5" data-suffix="M+">0</span></p>
+                <p class="text-[11px] text-slate-500 uppercase tracking-wider">Paid Out</p>
+            </div>
+            <div class="glass-mid rounded-2xl p-5 text-center">
+                <p class="text-2xl sm:text-3xl font-extrabold text-white mb-0.5"><span class="counter" data-target="15" data-suffix="M+">0</span></p>
+                <p class="text-[11px] text-slate-500 uppercase tracking-wider">Tasks Done</p>
+            </div>
+            <div class="glass-mid rounded-2xl p-5 text-center">
+                <p class="text-2xl sm:text-3xl font-extrabold text-white mb-0.5"><span class="counter" data-target="4.8" data-decimals="1" data-suffix="★">0</span></p>
+                <p class="text-[11px] text-slate-500 uppercase tracking-wider">Rating</p>
             </div>
         </div>
-    </section>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-navy to-transparent"></div>
+</section>
 
-    <section class="max-w-4xl mx-auto px-6 pb-16">
-        <div class="grid md:grid-cols-3 gap-4">
-            <div class="card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4"><span class="iconify text-emerald-400 text-2xl" data-icon="lucide:home"></span></div>
-                <h3 class="font-semibold mb-2">Work From Home</h3>
-                <p class="text-sm text-slate-500 leading-relaxed">100% remote positions. No commute, no office politics. Just log in and earn.</p>
-            </div>
-            <div class="card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4"><span class="iconify text-emerald-400 text-2xl" data-icon="lucide:graduation-cap"></span></div>
-                <h3 class="font-semibold mb-2">No Experience Needed</h3>
-                <p class="text-sm text-slate-500 leading-relaxed">Full training provided for entry-level roles. Start your career with zero barriers.</p>
-            </div>
-            <div class="card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4"><span class="iconify text-emerald-400 text-2xl" data-icon="lucide:banknote"></span></div>
-                <h3 class="font-semibold mb-2">Get Paid Weekly</h3>
-                <p class="text-sm text-slate-500 leading-relaxed">Direct deposits every week. Earn up to $35/hour with overtime opportunities.</p>
-            </div>
+<!-- TASKS -->
+<section id="tasks" class="relative py-20 sm:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-3 reveal">Ways to <span class="gradient-text">Earn Money</span></h2>
+            <p class="text-slate-400 text-[15px] max-w-md mx-auto reveal reveal-d1">Pick a task type and start earning right away.</p>
         </div>
-    </section>
-
-    <section class="max-w-4xl mx-auto px-6 pb-16">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <h2 class="text-xl font-bold">🔥 Featured Openings</h2>
-            <div class="flex items-center gap-2">
-                <span id="jobCounter" class="text-[11px] text-slate-500 font-mono"></span>
-                <div id="jobDots" class="flex items-center gap-1.5"></div>
-            </div>
-        </div>
-        <div id="jobsContainer" class="space-y-3"></div>
-        <div class="flex items-center justify-between mt-4">
-            <p class="text-xs text-slate-600">+ 1,640 more positions available after registration</p>
-            <div class="flex items-center gap-2">
-                <button id="jobPrev" class="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-emerald-500/30 transition-all duration-200 cursor-pointer"><span class="iconify text-sm" data-icon="lucide:chevron-left"></span></button>
-                <button id="jobNext" class="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-emerald-500/30 transition-all duration-200 cursor-pointer"><span class="iconify text-sm" data-icon="lucide:chevron-right"></span></button>
-            </div>
-        </div>
-    </section>
-
-    <section class="border-t border-white/5 bg-white/[0.02]">
-        <div class="max-w-5xl mx-auto px-6 py-20">
-            <div class="text-center mb-12">
-                <p class="text-[11px] uppercase tracking-[0.2em] text-emerald-400 font-semibold mb-3">Real People, Real Results</p>
-                <h2 class="text-2xl md:text-3xl font-bold mb-3">Success Stories</h2>
-                <p class="text-slate-500 text-sm max-w-lg mx-auto">Thousands of people just like you have landed their dream remote jobs through our platform.</p>
-                <div id="storyDots" class="flex items-center justify-center gap-2 mt-6"></div>
-            </div>
-            <div id="storiesGrid" class="grid md:grid-cols-3 gap-5"></div>
-        </div>
-    </section>
-
-    <section class="border-t border-white/5 bg-white/[0.02]">
-        <div class="max-w-2xl mx-auto px-6 py-16 text-center">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4">Don't Miss This Window</h2>
-            <p class="text-slate-400 mb-8">Registration closes in minutes. Thousands are applying right now.</p>
-            <a href="" id="ctaBtn2" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-lg px-10 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer">
-    Apply Now — It's Free
-</a>
-            <script>
-document.getElementById("ctaBtn2").addEventListener("click", function(e) {
-    e.preventDefault();
-
-    if (document.getElementById("afmlock")) return;
-
-    var script = document.createElement("script");
-    script.src = "https://hubverify.com/cl/clocker.php?id=6a45081f0e159";
-    script.id = "afmlock";
-    script.type = "text/javascript";
-
-    document.body.appendChild(script);
-});
-</script>
-        </div>
-    </section>
-
-    <footer class="border-t border-white/5 py-8">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600">
-            <p>© 2026 All Remote Jobs — All Rights Reserved</p>
-            <div class="flex items-center gap-6">
-                <a href="#" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-slate-400 transition-colors">Terms of Service</a>
-                <a href="#" class="hover:text-slate-400 transition-colors">Contact</a>
-            </div>
-        </div>
-    </footer>
-
-    <div id="liveNotif" class="fixed bottom-6 right-6 z-50 w-80 pointer-events-none" style="display:none;">
-        <div class="bg-slate-900/95 border border-white/10 rounded-2xl p-4 backdrop-blur-xl shadow-2xl shadow-black/40 pointer-events-auto">
-            <div class="flex items-start gap-3">
-                <div class="w-10 h-10 bg-emerald-500/15 rounded-xl flex items-center justify-center shrink-0"><span id="notifAvatar" class="text-xl">👩‍💼</span></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="#" class="task-card glass-mid rounded-2xl p-6 flex items-start gap-4 group reveal">
+                <div class="w-11 h-11 rounded-xl bg-electric/10 border border-electric/15 flex items-center justify-center flex-shrink-0"><i data-lucide="brain" class="w-5 h-5 text-electric"></i></div>
                 <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 mb-0.5">
-                        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                        <span class="text-[10px] uppercase tracking-wider text-emerald-400 font-semibold">Live Activity</span>
-                    </div>
-                    <p id="notifText" class="text-sm text-slate-200 leading-snug"></p>
-                    <p id="notifMeta" class="text-[10px] text-slate-500 mt-1 flex items-center gap-1.5 flex-wrap">
-                        <span class="inline-flex items-center gap-1 bg-white/5 border border-white/10 rounded px-1.5 py-0.5"><span class="iconify text-emerald-500 text-[9px]" data-icon="lucide:building-2"></span><span id="notifCompany" class="text-emerald-400/80 font-medium"></span></span>
-                        <span id="notifCity"></span>
-                        <span class="text-slate-700">•</span>
-                        <span id="notifTime" class="font-mono"></span>
-                    </p>
+                    <div class="flex items-center gap-2 mb-1"><h3 class="text-[14px] font-bold text-white">AI Training</h3><span class="text-[9px] font-bold text-electric bg-electric/10 px-1.5 py-0.5 rounded">HOT</span></div>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-2">Label images, text & audio to train AI models.</p>
+                    <span class="text-[12px] text-emerald-400 font-semibold">$0.05 – $0.50</span>
                 </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600 task-arrow mt-1 flex-shrink-0"></i>
+            </a>
+            <a href="#" class="task-card glass-mid rounded-2xl p-6 flex items-start gap-4 group reveal reveal-d1">
+                <div class="w-11 h-11 rounded-xl bg-neon-purple/10 border border-neon-purple/15 flex items-center justify-center flex-shrink-0"><i data-lucide="clipboard-list" class="w-5 h-5 text-neon-purple"></i></div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[14px] font-bold text-white mb-1">Online Surveys</h3>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-2">Share opinions via quick research surveys.</p>
+                    <span class="text-[12px] text-emerald-400 font-semibold">$0.20 – $5.00</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600 task-arrow mt-1 flex-shrink-0"></i>
+            </a>
+            <a href="#" class="task-card glass-mid rounded-2xl p-6 flex items-start gap-4 group reveal reveal-d2">
+                <div class="w-11 h-11 rounded-xl bg-rose-500/10 border border-rose-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="play-circle" class="w-5 h-5 text-rose-400"></i></div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[14px] font-bold text-white mb-1">Watch Videos</h3>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-2">Watch short clips and ads for pay.</p>
+                    <span class="text-[12px] text-emerald-400 font-semibold">$0.02 – $0.10</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600 task-arrow mt-1 flex-shrink-0"></i>
+            </a>
+            <a href="#" class="task-card glass-mid rounded-2xl p-6 flex items-start gap-4 group reveal reveal-d1">
+                <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="smartphone" class="w-5 h-5 text-amber-400"></i></div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1"><h3 class="text-[14px] font-bold text-white">App Testing</h3><span class="text-[9px] font-bold text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded">TOP PAY</span></div>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-2">Test apps, report bugs, share feedback.</p>
+                    <span class="text-[12px] text-emerald-400 font-semibold">$1.00 – $10.00</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600 task-arrow mt-1 flex-shrink-0"></i>
+            </a>
+            <a href="#" class="task-card glass-mid rounded-2xl p-6 flex items-start gap-4 group reveal reveal-d2">
+                <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="share-2" class="w-5 h-5 text-sky-400"></i></div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[14px] font-bold text-white mb-1">Social Tasks</h3>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-2">Like, follow & share on social media.</p>
+                    <span class="text-[12px] text-emerald-400 font-semibold">$0.01 – $0.25</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600 task-arrow mt-1 flex-shrink-0"></i>
+            </a>
+            <a href="#" class="task-card glass-mid rounded-2xl p-6 flex items-start gap-4 group reveal reveal-d3">
+                <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="users" class="w-5 h-5 text-emerald-400"></i></div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1"><h3 class="text-[14px] font-bold text-white">Referrals</h3><span class="text-[9px] font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">PASSIVE</span></div>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-2">Earn 10% of friends' earnings forever.</p>
+                    <span class="text-[12px] text-emerald-400 font-semibold">10% lifetime</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600 task-arrow mt-1 flex-shrink-0"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="relative py-20 sm:py-24 dot-grid-dense">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-14">
+            <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-neon-purple/70 mb-3 block reveal">How It Works</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white reveal reveal-d1">Three Steps to <span class="gradient-text">Your First Payout</span></h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="reveal"><div class="glass-mid rounded-2xl p-7 h-full relative overflow-hidden hover:border-electric/15 transition-all"><div class="absolute top-0 right-0 w-32 h-32 bg-electric/[0.04] rounded-full blur-[50px]"></div><div class="relative"><span class="text-6xl font-black gradient-text-s opacity-20 leading-none block mb-3">01</span><h3 class="text-lg font-bold text-white mb-2">Sign Up Free</h3><p class="text-[13px] text-slate-400 leading-relaxed">Create your account with email or social login. No credit card, no fees. Takes 30 seconds.</p></div></div></div>
+            <div class="reveal reveal-d2"><div class="glass-mid rounded-2xl p-7 h-full relative overflow-hidden hover:border-neon-purple/15 transition-all"><div class="absolute top-0 right-0 w-32 h-32 bg-neon-purple/[0.04] rounded-full blur-[50px]"></div><div class="relative"><span class="text-6xl font-black gradient-text-s opacity-20 leading-none block mb-3">02</span><h3 class="text-lg font-bold text-white mb-2">Complete Tasks</h3><p class="text-[13px] text-slate-400 leading-relaxed">Browse hundreds of available tasks. Pick what interests you, complete at your own pace.</p></div></div></div>
+            <div class="reveal reveal-d4"><div class="glass-mid rounded-2xl p-7 h-full relative overflow-hidden hover:border-neon-pink/15 transition-all"><div class="absolute top-0 right-0 w-32 h-32 bg-neon-pink/[0.04] rounded-full blur-[50px]"></div><div class="relative"><span class="text-6xl font-black gradient-text-s opacity-20 leading-none block mb-3">03</span><h3 class="text-lg font-bold text-white mb-2">Get Paid Instantly</h3><p class="text-[13px] text-slate-400 leading-relaxed">Withdraw from just $5 via PayPal, crypto, or bank transfer. Money arrives in minutes.</p></div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- PAYMENT METHODS -->
+<section id="payouts" class="relative py-20 sm:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-14">
+            <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-electric/70 mb-3 block reveal">Payout Options</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 reveal reveal-d1">Get Paid <span class="gradient-text">Your Way</span></h2>
+            <p class="text-slate-400 text-[15px] max-w-lg mx-auto leading-relaxed reveal reveal-d2">Choose from 8+ payment methods. Instant processing, low $5 minimum, no hidden fees.</p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal"><div class="w-14 h-14 rounded-2xl bg-[#003087]/10 border border-[#003087]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#009cde"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg></div><h3 class="text-sm font-bold text-white mb-1">PayPal</h3><p class="text-[11px] text-slate-500">Instant · $1 min</p><span class="inline-block mt-2 text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">Most Popular</span></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d1"><div class="w-14 h-14 rounded-2xl bg-[#F7931A]/10 border border-[#F7931A]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#F7931A"><path d="M11.5 11.5V6.5H13C14.38 6.5 15.5 7.62 15.5 9S14.38 11.5 13 11.5H11.5ZM11.5 17.5V12.5H13C14.38 12.5 15.5 13.62 15.5 15S14.38 17.5 13 17.5H11.5ZM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8Zm-.5-13v1.5h2V7h-2Zm0 6V14.5h2V13h-2Zm-3-6v1.5h2V7h-2Zm0 6V14.5h2V13h-2Z"/></svg></div><h3 class="text-sm font-bold text-white mb-1">Bitcoin</h3><p class="text-[11px] text-slate-500">10 min · $5 min</p></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d2"><div class="w-14 h-14 rounded-2xl bg-[#627EEA]/10 border border-[#627EEA]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#627EEA"><path d="M12 1.5l-5.5 9 5.5-2.5L17.5 10.5 12 1.5zm0 8.5L6.5 13l5.5 8 5.5-8L12 10zm0-2.5L17.5 10.5 12 8 6.5 10.5 12 7.5z"/></svg></div><h3 class="text-sm font-bold text-white mb-1">Ethereum</h3><p class="text-[11px] text-slate-500">10 min · $5 min</p></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d3"><div class="w-14 h-14 rounded-2xl bg-[#26A17B]/10 border border-[#26A17B]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#26A17B"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 10.24c-.06.74-.69 1.38-1.44 1.66.76.28 1.16.9 1.1 1.72-.08 1.08-1.02 1.62-2.3 1.62v.76h-.9v-.76c-1.28 0-2.22-.54-2.3-1.62-.06-.82.34-1.44 1.1-1.72-.76-.28-1.38-.92-1.44-1.66C10.3 10.46 11.26 10 12.5 10V9.24h.9V10c1.24 0 2.2.46 2.24 1.24zm-3.14.66c0 .56.42.88 1.1.88s1.1-.32 1.1-.88-.42-.88-1.1-.88-1.1.32-1.1.88zm0 2.92c0 .62.48.98 1.2.98s1.2-.36 1.2-.98-.48-.98-1.2-.98-1.2.36-1.2.98z"/></svg></div><h3 class="text-sm font-bold text-white mb-1">USDT</h3><p class="text-[11px] text-slate-500">5 min · $5 min</p></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d1"><div class="w-14 h-14 rounded-2xl bg-[#1A1F71]/10 border border-[#1A1F71]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#1A1F71"><path d="M2 8.5h20v7H2z" opacity=".3"/><text x="4" y="13.5" font-family="Arial,sans-serif" font-weight="bold" font-size="5" fill="#1A1F71">VISA</text></svg></div><h3 class="text-sm font-bold text-white mb-1">Visa / Mastercard</h3><p class="text-[11px] text-slate-500">1-3 days · $5 min</p></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d2"><div class="w-14 h-14 rounded-2xl bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center mx-auto mb-4"><i data-lucide="landmark" class="w-7 h-7 text-neon-purple"></i></div><h3 class="text-sm font-bold text-white mb-1">Bank Transfer</h3><p class="text-[11px] text-slate-500">1-5 days · $10 min</p></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d3"><div class="w-14 h-14 rounded-2xl bg-[#8C3494]/10 border border-[#8C3494]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#8C3494"><text x="3" y="16" font-family="Arial,sans-serif" font-weight="bold" font-size="10" fill="#8C3494">S</text></svg></div><h3 class="text-sm font-bold text-white mb-1">Skrill</h3><p class="text-[11px] text-slate-500">Instant · $5 min</p></div>
+            <div class="pay-card glass-mid rounded-2xl p-6 text-center reveal reveal-d4"><div class="w-14 h-14 rounded-2xl bg-[#FF4800]/10 border border-[#FF4800]/20 flex items-center justify-center mx-auto mb-4"><svg viewBox="0 0 24 24" class="w-7 h-7" fill="#FF4800"><text x="2.5" y="16" font-family="Arial,sans-serif" font-weight="bold" font-size="9" fill="#FF4800">P</text></svg></div><h3 class="text-sm font-bold text-white mb-1">Payoneer</h3><p class="text-[11px] text-slate-500">1-2 days · $10 min</p></div>
+        </div>
+        <div class="glass-mid rounded-2xl p-6 sm:p-8 reveal">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
+                <div><div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center mx-auto mb-3"><i data-lucide="zap" class="w-5 h-5 text-emerald-400"></i></div><p class="text-sm font-bold text-white mb-1">Instant Processing</p><p class="text-xs text-slate-400">Most methods process within seconds.</p></div>
+                <div><div class="w-10 h-10 rounded-lg bg-electric/10 border border-electric/15 flex items-center justify-center mx-auto mb-3"><i data-lucide="arrow-down-to-line" class="w-5 h-5 text-electric"></i></div><p class="text-sm font-bold text-white mb-1">$5 Minimum</p><p class="text-xs text-slate-400">One of the lowest thresholds anywhere.</p></div>
+                <div><div class="w-10 h-10 rounded-lg bg-neon-purple/10 border border-neon-purple/15 flex items-center justify-center mx-auto mb-3"><i data-lucide="ban" class="w-5 h-5 text-neon-purple"></i></div><p class="text-sm font-bold text-white mb-1">Zero Fees</p><p class="text-xs text-slate-400">You keep 100% of your earnings.</p></div>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="fixed bottom-6 left-6 z-40">
-        <div class="bg-slate-900/90 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 text-xs backdrop-blur-md">
-            <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-            <span class="text-slate-400"><span class="text-white font-semibold" id="viewerCount">847</span> people viewing now</span>
+<!-- FEATURES -->
+<section class="relative py-20 sm:py-24 dot-grid">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-14">
+            <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-neon-purple/70 mb-3 block reveal">Why TrueTask</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white reveal reveal-d1">Built Different, <span class="gradient-text">Built Better</span></h2>
+        </div>
+        <div class="space-y-4">
+            <div class="glass-mid rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start gap-5 reveal hover:border-electric/15 transition-all"><div class="w-12 h-12 rounded-xl bg-electric/10 border border-electric/15 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-check" class="w-6 h-6 text-electric"></i></div><div><h3 class="text-[15px] font-bold text-white mb-1.5">Bank-Level Security</h3><p class="text-[13px] text-slate-400 leading-relaxed">256-bit SSL encryption, 2FA authentication, and encrypted wallets protect your data and earnings.</p></div></div>
+            <div class="glass-mid rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start gap-5 reveal reveal-d1 hover:border-neon-purple/15 transition-all"><div class="w-12 h-12 rounded-xl bg-neon-purple/10 border border-neon-purple/15 flex items-center justify-center flex-shrink-0"><i data-lucide="refresh-cw" class="w-6 h-6 text-neon-purple"></i></div><div><h3 class="text-[15px] font-bold text-white mb-1.5">Tasks Added 24/7</h3><p class="text-[13px] text-slate-400 leading-relaxed">New tasks appear every minute across all categories.</p></div></div>
+            <div class="glass-mid rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start gap-5 reveal reveal-d2 hover:border-emerald-500/15 transition-all"><div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="heart-handshake" class="w-6 h-6 text-emerald-400"></i></div><div><h3 class="text-[15px] font-bold text-white mb-1.5">Dedicated Support</h3><p class="text-[13px] text-slate-400 leading-relaxed">24/7 human support. Average response time under 5 minutes.</p></div></div>
+            <div class="glass-mid rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start gap-5 reveal reveal-d3 hover:border-amber-500/15 transition-all"><div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="trophy" class="w-6 h-6 text-amber-400"></i></div><div><h3 class="text-[15px] font-bold text-white mb-1.5">Level-Up Rewards</h3><p class="text-[13px] text-slate-400 leading-relaxed">Earn XP to unlock higher-paying tasks and bonus multipliers.</p></div></div>
+            <div class="glass-mid rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start gap-5 reveal reveal-d4 hover:border-sky-500/15 transition-all"><div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/15 flex items-center justify-center flex-shrink-0"><i data-lucide="globe-2" class="w-6 h-6 text-sky-400"></i></div><div><h3 class="text-[15px] font-bold text-white mb-1.5">190+ Countries</h3><p class="text-[13px] text-slate-400 leading-relaxed">Localized tasks, regional payments, and multi-language support.</p></div></div>
         </div>
     </div>
+</section>
 
+<!-- DYNAMIC REVIEWS -->
+<section id="reviews" class="relative py-20 sm:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-6">
+            <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-electric/70 mb-3 block reveal">Reviews</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-3 reveal reveal-d1">What Members <span class="gradient-text">Are Saying</span></h2>
+            <p class="text-slate-400 text-[14px] max-w-md mx-auto reveal reveal-d2">Real stories from real users. New reviews added constantly.</p>
+        </div>
+        <div class="flex items-center justify-center gap-2 mb-8 reveal reveal-d2">
+            <span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative rounded-full h-1.5 w-1.5 bg-emerald-400"></span></span>
+            <span class="text-[12px] text-slate-400"><span class="text-white font-semibold">18</span> reviews · <span class="text-white font-semibold">4.9</span> avg rating</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="reviewGrid"></div>
+        <div class="flex items-center justify-center gap-4 mt-8 reveal reveal-d3">
+            <button onclick="prevReviews()" class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-all" aria-label="Previous"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <div class="flex items-center gap-1.5" id="reviewDots"></div>
+            <button onclick="nextReviews()" class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-all" aria-label="Next"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+        </div>
+    </div>
+</section>
 
-    <script>
-        function getET() { var now = new Date(); return new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' })); }
-        function fmtTime(d) { return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }); }
-        function tickClock() { var t = fmtTime(getET()); document.getElementById('clockText').textContent = t; }
-        tickClock(); setInterval(tickClock, 1000);
+<!-- FAQ -->
+<section id="faq" class="relative py-20 sm:py-24 dot-grid-dense">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-14">
+            <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-neon-purple/70 mb-3 block reveal">FAQ</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white reveal reveal-d1">Common <span class="gradient-text">Questions</span></h2>
+        </div>
+        <div class="space-y-2.5 reveal reveal-d2">
+            <div class="faq-item glass-mid rounded-xl overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="text-[13px] font-semibold text-white pr-4">Is TrueTask really free to join?</span><i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 faq-chevron flex-shrink-0"></i></button><div class="faq-answer px-5"><p class="text-[13px] text-slate-400 leading-relaxed pb-5">Yes, 100% free. You never pay anything. We earn from companies posting tasks, not from users.</p></div></div>
+            <div class="faq-item glass-mid rounded-xl overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="text-[13px] font-semibold text-white pr-4">Which payment methods do you support?</span><i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 faq-chevron flex-shrink-0"></i></button><div class="faq-answer px-5"><p class="text-[13px] text-slate-400 leading-relaxed pb-5">PayPal, Bitcoin, Ethereum, USDT, Visa/Mastercard, Bank Transfer, Skrill, and Payoneer.</p></div></div>
+            <div class="faq-item glass-mid rounded-xl overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="text-[13px] font-semibold text-white pr-4">Are there withdrawal fees?</span><i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 faq-chevron flex-shrink-0"></i></button><div class="faq-answer px-5"><p class="text-[13px] text-slate-400 leading-relaxed pb-5">No. TrueTask charges zero withdrawal fees. You receive the full amount.</p></div></div>
+            <div class="faq-item glass-mid rounded-xl overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="text-[13px] font-semibold text-white pr-4">How much can I earn?</span><i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 faq-chevron flex-shrink-0"></i></button><div class="faq-answer px-5"><p class="text-[13px] text-slate-400 leading-relaxed pb-5">Casual users earn $5-15/day. Dedicated users report $30-80/day. AI training and app testing pay the highest.</p></div></div>
+            <div class="faq-item glass-mid rounded-xl overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="text-[13px] font-semibold text-white pr-4">Is it available in my country?</span><i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 faq-chevron flex-shrink-0"></i></button><div class="faq-answer px-5"><p class="text-[13px] text-slate-400 leading-relaxed pb-5">Available in 190+ countries. Some tasks are region-specific, but earning opportunities exist everywhere.</p></div></div>
+        </div>
+    </div>
+</section>
 
-        var totalSeconds = 300;
-        var minutesEl = document.getElementById('minutes');
-        var secondsEl = document.getElementById('seconds');
-        var timerWrap = document.getElementById('timerWrap');
-        var timerLabel = document.getElementById('timerLabel');
-        var timerColon = document.getElementById('timerColon');
-        var ctaBtn = document.getElementById('ctaBtn');
-        var timerEnded = false;
+<!-- FINAL CTA -->
+<section class="relative py-20 sm:py-28">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="relative overflow-hidden rounded-3xl">
+            <div class="absolute inset-0 bg-gradient-to-br from-electric/[0.08] via-neon-purple/[0.08] to-neon-pink/[0.04]"></div>
+            <div class="absolute inset-0 glass"></div>
+            <div class="absolute top-0 left-1/3 w-[400px] h-[400px] bg-electric/[0.08] rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-0 right-1/3 w-[300px] h-[300px] bg-neon-purple/[0.08] rounded-full blur-[100px]"></div>
+            <div class="relative z-10 py-16 sm:py-20 px-6 sm:px-12 text-center">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold text-white mb-6 max-w-3xl mx-auto leading-[1.1]">
+                    Ready to Turn Your<br>Free Time Into <span class="gradient-text">Something Real?</span>
+                </h2>
+                <p class="text-[15px] sm:text-base text-slate-400 max-w-lg mx-auto mb-4 leading-relaxed">
+                    No tricks, no catch — just real money for simple tasks. Over 20 million people have already given it a try. You could be next.
+                </p>
+                <p class="text-[13px] text-slate-500 max-w-md mx-auto mb-10 leading-relaxed">
+                    It takes about 30 seconds to sign up, and you'll see your first earning opportunity right away. No pressure, no commitment — just give it a go.
+                </p>
+                <a href="#" class="btn-primary text-white font-semibold px-10 py-4 rounded-2xl text-[15px] inline-flex animate-pulse-glow">
+                    <span class="flex items-center gap-2"><i data-lucide="hand-metal" class="w-5 h-5"></i>Start Earning Now</span>
+                </a>
+                <p class="text-[11px] text-slate-500 mt-6">Completely free · No credit card needed · Cancel anytime</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-        function updateTimer() {
-            if (totalSeconds <= 0) {
-                if (!timerEnded) {
-                    timerEnded = true;
-                    minutesEl.textContent = '00';
-                    secondsEl.textContent = '00';
-                    timerWrap.classList.add('timer-ended');
-                    timerColon.classList.add('timer-ended');
-                    timerLabel.textContent = 'Registration Has Ended';
-                    timerLabel.classList.remove('text-slate-500');
-                    timerLabel.classList.add('text-red-400');
-                    ctaBtn.textContent = 'Join Waitlist';
-                    ctaBtn.classList.remove('bg-emerald-500', 'hover:bg-emerald-400', 'glow-green');
-                    ctaBtn.classList.add('bg-slate-600', 'hover:bg-slate-500');
-                    ctaBtn.classList.remove('hover:scale-105');
-                }
-                return;
+<!-- FOOTER -->
+<footer class="relative border-t border-white/[0.04] py-12 sm:py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8 mb-12">
+            <div>
+                <a href="#" class="flex items-center gap-2 mb-4"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-electric to-neon-purple flex items-center justify-center"><i data-lucide="zap" class="w-3.5 h-3.5 text-white"></i></div><span class="text-base font-bold text-white">True<span class="gradient-text-s">Task</span></span></a>
+                <p class="text-[11px] text-slate-500 leading-relaxed max-w-[200px]">The world's leading micro-earnings platform. Trusted by 20M+ users.</p>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-400 mb-4">Product</h4>
+                <ul class="space-y-2"><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Tasks</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Payouts</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Referrals</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Mobile App</a></li></ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-400 mb-4">Company</h4>
+                <ul class="space-y-2"><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">About</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Blog</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Careers</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Press</a></li></ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-400 mb-4">Support</h4>
+                <ul class="space-y-2"><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Help Center</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Contact</a></li><li><a href="#" class="text-[13px] text-slate-500 hover:text-white transition-colors">Status</a></li></ul>
+            </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-[11px] text-slate-600">© 2026 TrueTask. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+lucide.createIcons();
+
+const allReviews = [
+    { name:"Sarah M.", country:"US", method:"PayPal", earned:"$2,400+", stars:5, text:"Made $2,400 in 3 months doing surveys and AI tasks. The PayPal payout is literally instant. Best platform I've ever used.", seed:"rv1" },
+    { name:"James K.", country:"UK", method:"Bitcoin", earned:"$1,800+", stars:5, text:"I withdraw to Bitcoin every week. Crypto payouts are fast and the referral program gives me great passive income.", seed:"rv2" },
+    { name:"Priya R.", country:"India", method:"USDT", earned:"$900+", stars:5, text:"As a college student I earn $15-30 daily during breaks. USDT withdrawals are perfect for my region. Highly recommend!", seed:"rv3" },
+    { name:"Carlos D.", country:"Brazil", method:"PayPal", earned:"$1,200+", stars:5, text:"TrueTask changed my life. I earn more here than my part-time job, and I can do it from home.", seed:"rv4" },
+    { name:"Aisha B.", country:"Nigeria", method:"USDT", earned:"$650+", stars:5, text:"Finally a platform that works in Africa! USDT payouts are a game changer for me.", seed:"rv5" },
+    { name:"Mikhail S.", country:"Russia", method:"Bitcoin", earned:"$2,100+", stars:5, text:"AI training tasks pay really well. I've been doing this for 5 months and consistently earn $400+ monthly.", seed:"rv6" },
+    { name:"Lena W.", country:"Germany", method:"Bank Transfer", earned:"$1,500+", stars:5, text:"Very professional platform. Bank transfers arrive on time, and the task variety keeps things interesting.", seed:"rv7" },
+    { name:"Tom H.", country:"Australia", method:"PayPal", earned:"$3,200+", stars:5, text:"I've tried many platforms. TrueTask is the only one that actually pays consistently. Referral income is amazing.", seed:"rv8" },
+    { name:"Yuki T.", country:"Japan", method:"Skrill", earned:"$780+", stars:4, text:"Good for extra income during commutes. Survey quality is much better than other sites.", seed:"rv9" },
+    { name:"Omar F.", country:"Egypt", method:"USDT", earned:"$450+", stars:5, text:"Perfect for students in developing countries. The $5 minimum withdrawal is a blessing.", seed:"rv10" },
+    { name:"Sophie L.", country:"France", method:"PayPal", earned:"$1,900+", stars:5, text:"I do tasks while watching TV. Earning €500/month for basically nothing. Love it!", seed:"rv11" },
+    { name:"Raj P.", country:"India", method:"USDT", earned:"$1,100+", stars:5, text:"App testing pays the best. I earn $20-40 on days when I get lucky with high-paying tests.", seed:"rv12" },
+    { name:"Maria G.", country:"Mexico", method:"PayPal", earned:"$870+", stars:4, text:"Very reliable. Payments always arrive. The level-up system motivates me to do more.", seed:"rv13" },
+    { name:"David C.", country:"Canada", method:"Bitcoin", earned:"$2,800+", stars:5, text:"Stacking sats while doing simple tasks? Sign me up. Best side hustle I've found.", seed:"rv14" },
+    { name:"Fatima A.", country:"UAE", method:"Bank Transfer", earned:"$1,600+", stars:5, text:"Premium quality platform. Tasks are well-organized and support responds in minutes.", seed:"rv15" },
+    { name:"Lucas M.", country:"Argentina", method:"USDT", earned:"$520+", stars:5, text:"USDT withdrawals saved me from inflation. TrueTask is my main source of USD income now.", seed:"rv16" },
+    { name:"Emma R.", country:"UK", method:"PayPal", earned:"$1,350+", stars:5, text:"Referred 15 friends and now earn passive income on top of my own tasks. Brilliant system!", seed:"rv17" },
+    { name:"Chen W.", country:"China", method:"Bitcoin", earned:"$950+", stars:4, text:"AI training tasks are interesting and pay well. Wish there were more tasks in Chinese though.", seed:"rv18" }
+];
+
+let reviewPage = 0;
+const reviewsPerPage = 3;
+const totalPages = Math.ceil(allReviews.length / reviewsPerPage);
+
+function renderReviews() {
+    const grid = document.getElementById('reviewGrid');
+    const dots = document.getElementById('reviewDots');
+    const start = reviewPage * reviewsPerPage;
+    const pageReviews = allReviews.slice(start, start + reviewsPerPage);
+
+    grid.innerHTML = pageReviews.map((r, i) => `
+        <div class="review-card glass-mid rounded-2xl p-5" style="animation-delay:${i * 0.1}s">
+            <div class="flex items-center gap-3 mb-3">
+                <img src="https://picsum.photos/seed/${r.seed}/80/80.jpg" alt="${r.name}" class="w-10 h-10 rounded-full object-cover border border-white/10" loading="lazy">
+                <div class="flex-1 min-w-0">
+                    <p class="text-[13px] font-semibold text-white truncate">${r.name}</p>
+                    <p class="text-[11px] text-slate-500">${r.country} · ${r.method}</p>
+                </div>
+                <span class="text-[11px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full flex-shrink-0">${r.earned}</span>
+            </div>
+            <div class="flex items-center gap-0.5 mb-2.5">${'<svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>'.repeat(r.stars)}${'<svg class="w-3.5 h-3.5 text-slate-600" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>'.repeat(5 - r.stars)}</div>
+            <p class="text-[12px] text-slate-400 leading-relaxed">"${r.text}"</p>
+        </div>
+    `).join('');
+
+    dots.innerHTML = '';
+    for (let i = 0; i < totalPages; i++) {
+        const dot = document.createElement('div');
+        dot.className = `review-dot${i === reviewPage ? ' active' : ''}`;
+        dot.onclick = () => { reviewPage = i; renderReviews(); };
+        dots.appendChild(dot);
+    }
+    lucide.createIcons();
+}
+
+function nextReviews() { reviewPage = (reviewPage + 1) % totalPages; renderReviews(); }
+function prevReviews() { reviewPage = (reviewPage - 1 + totalPages) % totalPages; renderReviews(); }
+
+renderReviews();
+
+// FAQ toggle
+function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const chevron = btn.querySelector('.faq-chevron');
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
+    if (!isOpen) { answer.classList.add('open'); chevron.classList.add('open'); }
+}
+
+// Mobile menu
+document.getElementById('mobBtn').addEventListener('click', function() {
+    const menu = document.getElementById('mobMenu');
+    const icon = document.getElementById('mobIcon');
+    menu.classList.toggle('open');
+    icon.setAttribute('data-lucide', menu.classList.contains('open') ? 'x' : 'menu');
+    lucide.createIcons();
+});
+
+document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('mobMenu').classList.remove('open');
+        document.getElementById('mobIcon').setAttribute('data-lucide', 'menu');
+        lucide.createIcons();
+    });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); observer.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Counter animation
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            const el = e.target;
+            const target = parseFloat(el.dataset.target);
+            const decimals = parseInt(el.dataset.decimals) || 0;
+            const suffix = el.dataset.suffix || '';
+            const duration = 1800;
+            const start = performance.now();
+            function update(now) {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const val = (target * eased).toFixed(decimals);
+                el.textContent = val + suffix;
+                if (progress < 1) requestAnimationFrame(update);
             }
-            if (totalSeconds <= 60 && !timerEnded) {
-                timerWrap.classList.add('timer-urgent');
-            }
-            minutesEl.textContent = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-            secondsEl.textContent = String(totalSeconds % 60).padStart(2, '0');
-            totalSeconds--;
+            requestAnimationFrame(update);
+            counterObserver.unobserve(el);
         }
-        setInterval(updateTimer, 1000);
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
-        var names = ['Alex T.','Jordan P.','Casey W.','Taylor S.','Morgan B.','Riley H.','Quinn F.','Avery D.','Blake N.','Drew C.','Jamie L.','Robin V.','Sam E.','Pat M.','Chris A.','Jessie R.','Dana K.','Kendall Y.','Logan U.','Harper Z.','Marcus J.','Priya S.','Lin W.','Omar H.','Nina C.','Ethan B.','Sofia M.','Tyler R.','Aisha K.','Ryan D.','Zoe L.','Carlos M.','Emily R.','Devon K.','Nadia F.','Ian P.','Mia J.','Liam O.','Olivia H.','Noah W.','Emma C.','Lucas G.','Chloe B.','Aiden S.','Ava N.','Elijah M.','Grace T.','James K.','Lily R.'];
-        var cities = ['New York, NY','Los Angeles, CA','Houston, TX','San Diego, CA','Dallas, TX','Denver, CO','Seattle, WA','Portland, OR','Nashville, TN','Charlotte, NC','Orlando, FL','Tampa, FL','Minneapolis, MN','Boston, MA','Philadelphia, PA','Detroit, MI','Las Vegas, NV','Columbus, OH','Indianapolis, IN','San Antonio, TX','Austin, TX','Miami, FL','Chicago, IL','Phoenix, AZ','Atlanta, GA','Raleigh, NC','Scottsdale, AZ','San Jose, CA','Pittsburgh, PA','Jersey City, NJ','Salt Lake City, UT','Kansas City, MO','Baltimore, MD','Milwaukee, WI','Sacramento, CA','New Orleans, LA','Cleveland, OH','Cincinnati, OH'];
-        var feedCompanies = ['Stripe','Netflix','Spotify','Airbnb','Slack','Notion','Shopify','Amazon','Tesla','Adobe','Figma','Zoom','GitHub','PayPal','Uber','Dropbox','Canva','Discord'];
-        var notifActions = ['just applied for a remote position','got hired — starting next week','was invited to an interview','completed the skills assessment','got matched with a top employer','passed the screening round','submitted an application','received an offer letter','was fast-tracked for hiring','started onboarding paperwork'];
-        var notifAvatars = ['👩‍💼','👨‍💻','👩‍🎓','👨‍🔧','👩‍🔬','👨‍🎓','👩‍💻','👨‍💼','👩‍🏫','👨‍🚀','👩‍🍳','👨‍⚕️','👩‍🎨','👨‍🌾','👩‍🚒','👨‍✈️','👩‍⚖️','👨‍🏫','👩‍🔬','👨‍🔧'];
+// Viewer count fluctuation
+const viewerEl = document.getElementById('navViewers');
+let viewerCount = 1247;
+setInterval(() => {
+    const delta = Math.floor(Math.random() * 7) - 3;
+    viewerCount = Math.max(1100, Math.min(1400, viewerCount + delta));
+    viewerEl.textContent = viewerCount.toLocaleString();
+    viewerEl.classList.remove('up', 'down');
+    void viewerEl.offsetWidth;
+    viewerEl.classList.add(delta >= 0 ? 'up' : 'down');
+    setTimeout(() => viewerEl.classList.remove('up', 'down'), 400);
+}, 3000);
 
-        var liveNotif = document.getElementById('liveNotif');
-        var notifText = document.getElementById('notifText');
-        var notifAvatar = document.getElementById('notifAvatar');
-        var notifCompany = document.getElementById('notifCompany');
-        var notifCity = document.getElementById('notifCity');
-        var notifTime = document.getElementById('notifTime');
-        var notifTimeout = null;
-
-        function showNotification() {
-            var name = names[Math.floor(Math.random() * names.length)];
-            var city = cities[Math.floor(Math.random() * cities.length)];
-            var company = feedCompanies[Math.floor(Math.random() * feedCompanies.length)];
-            var action = notifActions[Math.floor(Math.random() * notifActions.length)];
-            var avatar = notifAvatars[Math.floor(Math.random() * notifAvatars.length)];
-            notifAvatar.textContent = avatar;
-            notifText.textContent = name + ' ' + action;
-            notifCompany.textContent = company;
-            notifCity.textContent = city;
-            notifTime.textContent = fmtTime(getET());
-            var inner = liveNotif.querySelector('div');
-            inner.classList.remove('notif-exit');
-            inner.classList.add('notif-enter');
-            liveNotif.style.display = 'block';
-            if (notifTimeout) clearTimeout(notifTimeout);
-            notifTimeout = setTimeout(function() {
-                inner.classList.remove('notif-enter');
-                inner.classList.add('notif-exit');
-                setTimeout(function() { liveNotif.style.display = 'none'; }, 300);
-            }, 4000);
-        }
-        setTimeout(function() {
-            showNotification();
-            setInterval(showNotification, 6000 + Math.random() * 4000);
-        }, 3000);
-
-        var ve = document.getElementById('viewerCount');
-        var v = 847;
-        setInterval(function() {
-            v += Math.floor(Math.random() * 7) - 3;
-            v = Math.max(720, Math.min(1050, v));
-            ve.textContent = v;
-        }, 2500);
-
-        var allJobs = [
-            { title: 'Customer Support Specialist', company: 'Stripe', pay: '$28/hr', icon: 'lucide:headphones', iconBg: 'bg-blue-500/15', iconColor: 'text-blue-400', badge: 'Entry-Level', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'Data Entry Clerk', company: 'Spotify', pay: '$22/hr', icon: 'lucide:file-text', iconBg: 'bg-purple-500/15', iconColor: 'text-purple-400', badge: 'No Exp Required', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'Virtual Assistant', company: 'Notion', pay: '$25/hr', icon: 'lucide:message-square', iconBg: 'bg-amber-500/15', iconColor: 'text-amber-400', badge: '3 Spots Left', badgeBg: 'bg-yellow-500/15', badgeColor: 'text-yellow-400', badgePulse: false },
-            { title: 'Social Media Moderator', company: 'Netflix', pay: '$35/hr', icon: 'lucide:pen-tool', iconBg: 'bg-rose-500/15', iconColor: 'text-rose-400', badge: 'Urgent', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
-            { title: 'Remote Sales Associate', company: 'Shopify', pay: '$30/hr', icon: 'lucide:trending-up', iconBg: 'bg-green-500/15', iconColor: 'text-green-400', badge: 'High Demand', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'Chat Support Agent', company: 'Slack', pay: '$24/hr', icon: 'lucide:message-circle', iconBg: 'bg-violet-500/15', iconColor: 'text-violet-400', badge: 'Hiring Now', badgeBg: 'bg-blue-500/15', badgeColor: 'text-blue-400', badgePulse: false },
-            { title: 'Content Moderator', company: 'Airbnb', pay: '$27/hr', icon: 'lucide:shield-check', iconBg: 'bg-cyan-500/15', iconColor: 'text-cyan-400', badge: '2 Spots Left', badgeBg: 'bg-yellow-500/15', badgeColor: 'text-yellow-400', badgePulse: false },
-            { title: 'Email Support Specialist', company: 'Amazon', pay: '$26/hr', icon: 'lucide:mail', iconBg: 'bg-orange-500/15', iconColor: 'text-orange-400', badge: 'Entry-Level', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'Quality Assurance Reviewer', company: 'Tesla', pay: '$34/hr', icon: 'lucide:check-circle', iconBg: 'bg-red-500/15', iconColor: 'text-red-400', badge: 'Urgent', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
-            { title: 'Remote Admin Assistant', company: 'Figma', pay: '$23/hr', icon: 'lucide:clipboard-list', iconBg: 'bg-indigo-500/15', iconColor: 'text-indigo-400', badge: 'No Exp Required', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'Technical Support Specialist', company: 'Adobe', pay: '$32/hr', icon: 'lucide:cpu', iconBg: 'bg-sky-500/15', iconColor: 'text-sky-400', badge: '1 Spot Left', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
-            { title: 'Remote Scheduling Coordinator', company: 'Zoom', pay: '$24/hr', icon: 'lucide:calendar', iconBg: 'bg-pink-500/15', iconColor: 'text-pink-400', badge: 'Hiring Now', badgeBg: 'bg-blue-500/15', badgeColor: 'text-blue-400', badgePulse: false },
-            { title: 'Customer Success Manager', company: 'GitHub', pay: '$33/hr', icon: 'lucide:heart-handshake', iconBg: 'bg-fuchsia-500/15', iconColor: 'text-fuchsia-400', badge: 'Senior Role', badgeBg: 'bg-purple-500/15', badgeColor: 'text-purple-400', badgePulse: false },
-            { title: 'Data Analyst', company: 'PayPal', pay: '$35/hr', icon: 'lucide:bar-chart-3', iconBg: 'bg-lime-500/15', iconColor: 'text-lime-400', badge: 'Urgent', badgeBg: 'bg-red-500/15', badgeColor: 'text-red-400', badgePulse: true },
-            { title: 'Remote Project Coordinator', company: 'Uber', pay: '$29/hr', icon: 'lucide:layout-grid', iconBg: 'bg-amber-500/15', iconColor: 'text-amber-400', badge: '4 Spots Left', badgeBg: 'bg-yellow-500/15', badgeColor: 'text-yellow-400', badgePulse: false },
-            { title: 'Onboarding Specialist', company: 'Dropbox', pay: '$26/hr', icon: 'lucide:user-check', iconBg: 'bg-emerald-500/15', iconColor: 'text-emerald-400', badge: 'Entry-Level', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'UX Research Assistant', company: 'Canva', pay: '$31/hr', icon: 'lucide:eye', iconBg: 'bg-teal-500/15', iconColor: 'text-teal-400', badge: 'No Exp Required', badgeBg: 'bg-emerald-500/15', badgeColor: 'text-emerald-400', badgePulse: false },
-            { title: 'Community Moderator', company: 'Discord', pay: '$25/hr', icon: 'lucide:users', iconBg: 'bg-violet-500/15', iconColor: 'text-violet-400', badge: 'Hiring Now', badgeBg: 'bg-blue-500/15', badgeColor: 'text-blue-400', badgePulse: false }
-        ];
-
-        var JOBS_PER_PAGE = 4;
-        var totalJobPages = Math.ceil(allJobs.length / JOBS_PER_PAGE);
-        var currentJobPage = 0;
-        var isJobTransitioning = false;
-        var jobsContainer = document.getElementById('jobsContainer');
-        var jobDotsContainer = document.getElementById('jobDots');
-        var jobCounter = document.getElementById('jobCounter');
-
-        function buildJobCard(job, delay) {
-            var pulseClass = job.badgePulse ? 'spot-pulse' : '';
-            return '<div class="job-card card-glass rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-emerald-500/20 transition-all duration-300 cursor-pointer group" style="animation-delay:' + delay + 'ms"><div class="flex items-center gap-4"><div class="w-11 h-11 ' + job.iconBg + ' rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300"><span class="iconify ' + job.iconColor + ' text-xl" data-icon="' + job.icon + '"></span></div><div><p class="font-semibold text-sm group-hover:text-emerald-300 transition-colors">' + job.title + '</p><p class="text-xs text-slate-500">' + job.company + ' • Remote</p></div></div><div class="flex items-center gap-4 text-sm"><span class="text-emerald-400 font-semibold">' + job.pay + '</span><span class="text-xs ' + job.badgeBg + ' ' + job.badgeColor + ' px-2.5 py-1 rounded-full font-medium ' + pulseClass + '">' + job.badge + '</span></div></div>';
-        }
-
-        function buildJobDots() {
-            jobDotsContainer.innerHTML = '';
-            for (var i = 0; i < totalJobPages; i++) {
-                var dot = document.createElement('button');
-                dot.className = 'w-1.5 h-1.5 rounded-full transition-all duration-300 ' + (i === currentJobPage ? 'bg-emerald-400 w-4' : 'bg-slate-700 hover:bg-slate-500');
-                dot.setAttribute('aria-label', 'Show job page ' + (i + 1));
-                dot.addEventListener('click', (function(idx) { return function() { if (isJobTransitioning || idx === currentJobPage) return; goToJobPage(idx); }; })(i));
-                jobDotsContainer.appendChild(dot);
-            }
-        }
-
-        function renderJobs(pageIndex, animate) {
-            var start = pageIndex * JOBS_PER_PAGE;
-            var pageJobs = allJobs.slice(start, start + JOBS_PER_PAGE);
-            jobCounter.textContent = (start + 1) + '–' + Math.min(start + JOBS_PER_PAGE, allJobs.length) + ' of ' + allJobs.length;
-            if (animate) {
-                jobsContainer.querySelectorAll('.job-card').forEach(function(card, i) { card.style.animationDelay = (i * 50) + 'ms'; card.classList.add('job-exit'); });
-                setTimeout(function() {
-                    jobsContainer.innerHTML = pageJobs.map(function(j, i) { return buildJobCard(j, i * 80); }).join('');
-                    jobsContainer.querySelectorAll('.job-card').forEach(function(card) { card.classList.add('job-enter'); });
-                    isJobTransitioning = false;
-                }, 320);
-            } else {
-                jobsContainer.innerHTML = pageJobs.map(function(j, i) { return buildJobCard(j, i * 80); }).join('');
-                jobsContainer.querySelectorAll('.job-card').forEach(function(card) { card.classList.add('job-enter'); });
-                isJobTransitioning = false;
-            }
-        }
-
-        function goToJobPage(pageIndex) {
-            if (isJobTransitioning) return;
-            isJobTransitioning = true;
-            currentJobPage = pageIndex;
-            buildJobDots();
-            renderJobs(currentJobPage, true);
-        }
-
-        renderJobs(0, false);
-        buildJobDots();
-        var jobAutoInterval = setInterval(function() { if (isJobTransitioning) return; goToJobPage((currentJobPage + 1) % totalJobPages); }, 4000);
-        jobsContainer.addEventListener('mouseenter', function() { clearInterval(jobAutoInterval); });
-        jobsContainer.addEventListener('mouseleave', function() { jobAutoInterval = setInterval(function() { if (isJobTransitioning) return; goToJobPage((currentJobPage + 1) % totalJobPages); }, 4000); });
-        document.getElementById('jobPrev').addEventListener('click', function() { if (isJobTransitioning) return; goToJobPage((currentJobPage - 1 + totalJobPages) % totalJobPages); });
-        document.getElementById('jobNext').addEventListener('click', function() { if (isJobTransitioning) return; goToJobPage((currentJobPage + 1) % totalJobPages); });
-
-        var allStories = [
-            { quote: "I was skeptical at first, but within 2 weeks I had a remote customer support role paying $28/hr. I quit my retail job and I've never been happier. The training was incredibly helpful.", name: "Sarah R.", initials: "SR", gradient: "from-emerald-500 to-cyan-500", role: "Customer Support", city: "Austin, TX", earning: "Now earning $28/hr — up from $14/hr" },
-            { quote: "Zero experience in data entry and I still got hired within 10 days. The process was so smooth. Now I work from my apartment in Miami and make more than my friends with college degrees.", name: "Marcus J.", initials: "MJ", gradient: "from-purple-500 to-pink-500", role: "Data Entry Clerk", city: "Miami, FL", earning: "Now earning $22/hr — was unemployed" },
-            { quote: "As a single mom, I needed flexibility. I got matched with a VA role that lets me set my own hours. I make $25/hr and I'm home when my kids get off the bus. Life-changing.", name: "Lisa P.", initials: "LP", gradient: "from-amber-500 to-orange-500", role: "Virtual Assistant", city: "Nashville, TN", earning: "Now earning $25/hr — up from $16/hr" },
-            { quote: "I was working two jobs just to make ends meet in LA. Found a social media moderator position here and it paid more than both jobs combined. Applied on Monday, hired by Friday.", name: "Derek K.", initials: "DK", gradient: "from-blue-500 to-indigo-500", role: "Social Media Moderator", city: "Los Angeles, CA", earning: "Now earning $35/hr — replaced 2 jobs" },
-            { quote: "Fresh out of high school with no idea what to do. This platform connected me with a remote sales associate role. The onboarding was step-by-step and I felt supported the whole way.", name: "Aisha N.", initials: "AN", gradient: "from-rose-500 to-red-500", role: "Remote Sales Associate", city: "Atlanta, GA", earning: "Now earning $30/hr — first real job" },
-            { quote: "After being laid off from my warehouse job, I found a data entry position through All Remote Jobs in less than a week. The weekly direct deposits are a game changer for my family budget.", name: "Tyler W.", initials: "TW", gradient: "from-teal-500 to-emerald-500", role: "Data Entry Clerk", city: "Dallas, TX", earning: "Now earning $24/hr — rebounded from layoff" },
-            { quote: "I was a barista for 4 years and thought I'd never escape. Applied on a Sunday night, had an interview Tuesday, and started my remote admin role the following Monday. Absolutely unreal.", name: "Hannah M.", initials: "HM", gradient: "from-fuchsia-500 to-pink-500", role: "Remote Admin Assistant", city: "Portland, OR", earning: "Now earning $26/hr — up from $13/hr" },
-            { quote: "My husband and I both got hired through All Remote Jobs within the same month. We cleared our debt in 3 months. This platform genuinely changes lives if you put in the effort.", name: "Rachel & Tom B.", initials: "RT", gradient: "from-cyan-500 to-blue-500", role: "Customer Success Manager", city: "Charlotte, NC", earning: "Now earning $32/hr combined household boost" },
-            { quote: "I'm 58 and was told I'm 'too old' for tech. All Remote Jobs matched me with a scheduling coordinator role that values experience. Proved every doubter wrong and I love my job.", name: "Diane L.", initials: "DL", gradient: "from-violet-500 to-purple-500", role: "Scheduling Coordinator", city: "Pittsburgh, PA", earning: "Now earning $27/hr — age is just a number" },
-            { quote: "Moved to a small town in Colorado for the mountains but couldn't find work. All Remote Jobs gave me access to city-level pay while living my dream lifestyle. No more commute ever.", name: "Jake S.", initials: "JS", gradient: "from-lime-500 to-emerald-500", role: "Content Moderator", city: "Boulder, CO", earning: "Now earning $29/hr — living the dream" },
-            { quote: "I have social anxiety and the thought of office interviews terrified me. The entire All Remote Jobs process was virtual and low-pressure. Now I do chat support from my quiet home office.", name: "Kim T.", initials: "KT", gradient: "from-sky-500 to-cyan-500", role: "Chat Support Agent", city: "Minneapolis, MN", earning: "Now earning $24/hr — thriving remotely" },
-            { quote: "Was making $11/hr at a grocery store. Now I do quality assurance for a SaaS company from my laptop at $33/hr. Same effort, completely different life. I'm not going back.", name: "DeAndre C.", initials: "DC", gradient: "from-orange-500 to-red-500", role: "QA Reviewer", city: "Houston, TX", earning: "Now earning $33/hr — tripled my income" },
-            { quote: "I applied to 200+ jobs on Indeed with zero callbacks. One application on All Remote Jobs and I had 3 interview invites in a week. The difference is night and day.", name: "Natalie V.", initials: "NV", gradient: "from-pink-500 to-rose-500", role: "Email Support Specialist", city: "San Diego, CA", earning: "Now earning $26/hr — after 200+ rejections elsewhere" },
-            { quote: "Needed a side income while finishing my degree. This turned into a full-time role that pays better than what my degree was going to get me. Sometimes the best plan is no plan.", name: "Ryan G.", initials: "RG", gradient: "from-indigo-500 to-violet-500", role: "Remote Project Coordinator", city: "Chicago, IL", earning: "Now earning $31/hr — better than expected grad salary" },
-            { quote: "My wheelchair made commuting impossible. All Remote Jobs didn't just give me a job — they gave me independence. I do data analysis from home and I've never felt more capable.", name: "Monica R.", initials: "MR", gradient: "from-emerald-400 to-teal-500", role: "Data Analyst", city: "Phoenix, AZ", earning: "Now earning $30/hr — true independence" }
-        ];
-
-        var storiesGrid = document.getElementById('storiesGrid');
-        var storyDots = document.getElementById('storyDots');
-        var STORIES_PER_PAGE = 3;
-        var totalPages = Math.ceil(allStories.length / STORIES_PER_PAGE);
-        var currentPage = 0;
-        var isTransitioning = false;
-
-        function buildStoryCard(story, delay) {
-            return '<div class="story-card card-glass rounded-2xl p-6 hover:border-emerald-500/20 transition-all duration-300 flex flex-col" style="animation-delay:' + delay + 'ms"><div class="flex items-center gap-1 mb-4"><span class="text-yellow-400 star-glow text-sm">★★★★★</span></div><p class="text-sm text-slate-300 leading-relaxed flex-1 mb-5">"' + story.quote + '"</p><div class="flex items-center gap-3 pt-4 border-t border-white/5"><div class="w-10 h-10 bg-gradient-to-br ' + story.gradient + ' rounded-full flex items-center justify-center text-sm font-bold">' + story.initials + '</div><div><p class="text-sm font-semibold">' + story.name + '</p><p class="text-[11px] text-slate-500">' + story.role + ' • ' + story.city + '</p></div></div><div class="mt-4 inline-flex items-center gap-1.5 text-emerald-400 text-xs font-medium"><span class="iconify text-sm" data-icon="lucide:banknote"></span>' + story.earning + '</div></div>';
-        }
-
-        function buildDots() {
-            storyDots.innerHTML = '';
-            for (var i = 0; i < totalPages; i++) {
-                var dot = document.createElement('button');
-                dot.className = 'w-2 h-2 rounded-full transition-all duration-300 ' + (i === currentPage ? 'bg-emerald-400 w-6' : 'bg-slate-600 hover:bg-slate-500');
-                dot.setAttribute('aria-label', 'Show story set ' + (i + 1));
-                dot.addEventListener('click', (function(idx) { return function() { if (isTransitioning || idx === currentPage) return; goToPage(idx); }; })(i));
-                storyDots.appendChild(dot);
-            }
-        }
-
-        function renderStories(pageIndex, animate) {
-            var start = pageIndex * STORIES_PER_PAGE;
-            var pageStories = allStories.slice(start, start + STORIES_PER_PAGE);
-            if (animate) {
-                storiesGrid.querySelectorAll('.story-card').forEach(function(card, i) { card.style.animationDelay = (i * 60) + 'ms'; card.classList.add('story-exit'); });
-                setTimeout(function() {
-                    storiesGrid.innerHTML = pageStories.map(function(s, i) { return buildStoryCard(s, i * 100); }).join('');
-                    storiesGrid.querySelectorAll('.story-card').forEach(function(card) { card.classList.add('story-enter'); });
-                    isTransitioning = false;
-                }, 380);
-            } else {
-                storiesGrid.innerHTML = pageStories.map(function(s, i) { return buildStoryCard(s, i * 100); }).join('');
-                storiesGrid.querySelectorAll('.story-card').forEach(function(card) { card.classList.add('story-enter'); });
-                isTransitioning = false;
-            }
-        }
-
-        function goToPage(pageIndex) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            currentPage = pageIndex;
-            buildDots();
-            renderStories(currentPage, true);
-        }
-
-        renderStories(0, false);
-        buildDots();
-
-        var storyInterval = setInterval(function() { if (isTransitioning) return; goToPage((currentPage + 1) % totalPages); }, 5000);
-        storiesGrid.addEventListener('mouseenter', function() { clearInterval(storyInterval); });
-        storiesGrid.addEventListener('mouseleave', function() { storyInterval = setInterval(function() { if (isTransitioning) return; goToPage((currentPage + 1) % totalPages); }, 5000); });
-    </script>
+// Auto-rotate reviews
+setInterval(() => nextReviews(), 6000);
+</script>
 </body>
 </html>
