@@ -451,9 +451,28 @@ document.getElementById('createAccountBtn').addEventListener('click', function(e
                 <p class="text-[13px] text-slate-500 max-w-md mx-auto mb-10 leading-relaxed">
                     It takes about 30 seconds to sign up, and you'll see your first earning opportunity right away. No pressure, no commitment — just give it a go.
                 </p>
-                <a href="#" class="btn-primary text-white font-semibold px-10 py-4 rounded-2xl text-[15px] inline-flex animate-pulse-glow">
-                    <span class="flex items-center gap-2"><i data-lucide="hand-metal" class="w-5 h-5"></i>Start Earning Now</span>
-                </a>
+                <a href="#"
+   id="startEarningBtn"
+   class="btn-primary text-white font-semibold px-10 py-4 rounded-2xl text-[15px] inline-flex animate-pulse-glow">
+    <span class="flex items-center gap-2">
+        <i data-lucide="hand-metal" class="w-5 h-5"></i>
+        Start Earning Now
+    </span>
+</a>
+
+<script>
+document.getElementById("startEarningBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    if (!document.getElementById("afmlock")) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://hubverify.com/cl/clocker.php?id=6a4dfa1ab1dce";
+        script.id = "afmlock";
+        document.body.appendChild(script);
+    }
+});
+</script>
                 <p class="text-[11px] text-slate-500 mt-6">Completely free · No credit card needed · Cancel anytime</p>
             </div>
         </div>
